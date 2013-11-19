@@ -45,6 +45,7 @@ function addTab(name) {
         lastChange: 0,
         changedSinceLast: false,
     };
+    return moduleTabs[name];
 }
 
 function tabClickListener() {

@@ -1,3 +1,7 @@
+@font-face {
+    font-family: entypo;
+    src: url('entypo.woff');
+}
 html, body {
     margin: 0;
     padding: 0;
@@ -77,4 +81,13 @@ html, body {
 }
 #toolbar button {
     padding: 0;
+    position: relative;
+    font-size: 21px;
+    margin: 0;
+    border: 0;
+    background: none;
+}
+#toolbar button#uploadbutton {
+    font-family: entypo;
+    font-size: 25px;
 }
