@@ -19,11 +19,20 @@ function addTab(name) {
     var closeButton = $c('span');
     closeButton.classList.add('close-button');
     closeButton.innerHTML = '&#10060;';
-    closeButton.addEventListener('click', function() {
+    closeButton.addEventListener('click', function(ev) {
+        ev.stopPropagation();
+        var code = editor.getValue();
+        if (tabbar.lastChild.dataset.module
+            && moduleTabs[name].tab.classList.contains('active'))
+            switchTab(tabbar.lastChild.dataset.module);
         tabbar.removeChild(li);
         div.remove();
-        moduleTabs[name] = undefined;
+        delete moduleTabs[name];
         window['gracecode_' + name] = undefined;
+        offerRestore("Closed tab " + name, function() {
+            addTab(name);   
+            moduleTabs[name].editor.setValue(code, -1);
+        });
     });
     li.appendChild(closeButton);
     tabbar.appendChild(li);

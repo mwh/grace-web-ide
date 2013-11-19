@@ -32,6 +32,8 @@ function tabUpdateCheck() {
 }
 
 function backgroundMessageReceiver(ev) {
+    if (!moduleTabs[ev.data.modname])
+        return;
     if (moduleTabs[ev.data.modname].changedSinceLast)
         return;
     if (!ev.data.success) {

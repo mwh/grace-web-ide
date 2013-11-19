@@ -145,3 +145,11 @@ html, body {
     left: calc(50% - 200px);
     top: calc(50% - 100px);
 }
+#restore-prompt {
+    position: absolute;
+    background: #ff8;
+    border-radius: 5px;
+    left: 40vw;
+    top: 5px;
+    text-align: center;
+}
