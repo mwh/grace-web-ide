@@ -32,6 +32,8 @@ function addTab(name) {
     editor.on('change', function(ev) {
         moduleTabs[name].lastChange = new Date().getTime();
         moduleTabs[name].changedSinceLast = true;
+        if (moduleTabs[name].tab.classList.contains('active'))
+            updateDownloadURL();
     });
     for (var k in moduleTabs) {
         moduleTabs[k].div.style.display = 'none';
@@ -58,6 +60,7 @@ function tabClickListener() {
             moduleTabs[k].tab.classList.remove('active');
         }
     }
+    updateDownloadURL();
 }
 
 function tabNewClickListener() {

@@ -16,3 +16,35 @@ function uploadFile() {
     });
     file.click();
 }
+
+function updateDownloadURL() {
+    var url = window.URL;
+    if (!url && window.webkitURL)
+        url = window.webkitURL;
+    var module = $('module-tabbar').getElementsByClassName('active')[0]
+        .dataset.module;
+    var tabData = moduleTabs[module];
+    var editor = tabData.editor;
+    var blob = new Blob([editor.getValue()],
+            {type: "text/x-grace;charset=utf-8"});
+    var u = url.createObjectURL(blob);
+    var dl = $('downloadbutton');
+    if (dl.href)
+        url.revokeObjectURL(dl.href);
+    dl.download = module + '.grace';
+    dl.href = u;
+}
+function downloadFile() {
+    var url = window.URL;
+    if (!url && window.webkitURL)
+        url = window.webkitURL;
+    var module = $('module-tabbar').getElementsByClassName('active')[0]
+        .dataset.module;
+    var tabData = moduleTabs[module];
+    var editor = tabData.editor;
+    var blob = new Blob([editor.getValue()],
+            {type: "text/x-grace;charset=utf-8"});
+    var u = url.createObjectURL(blob);
+    window.location.href = u;
+    url.revokeObjectURL(u);
+}
