@@ -24,3 +24,32 @@ function clearRestore() {
         restorePrompt.lastChild.remove();
     restorePrompt.style.display = 'none';
 }
+
+function saveLocalStorage() {
+    var modules = [];
+    for (var k in moduleTabs) {
+        localStorage.setItem('code:' + k, moduleTabs[k].editor.getValue());
+        modules.push(k);
+    }
+    localStorage.setItem('modules', modules.join(','));
+}
+
+function restoreLocalStorage() {
+    if (!localStorage.getItem('modules'))
+        return;
+    for (var k in moduleTabs) {
+        var tb = moduleTabs[k];
+        tb.div.remove();
+        tb.tab.remove();
+    }
+    var modules = localStorage.getItem('modules').split(',');
+    for (var i=0; i<modules.length; i++) {
+        (function() {
+            var name = modules[i];
+            setTimeout(function() {
+                var tb = addTab(name);
+                tb.editor.setValue(localStorage.getItem('code:' + name), -1);
+            }, i * 250);
+        })();
+    }
+}

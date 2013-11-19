@@ -29,9 +29,12 @@ function addTab(name) {
         div.remove();
         delete moduleTabs[name];
         window['gracecode_' + name] = undefined;
+        sessionStorage.removeItem('code:' + name);
+        saveLocalStorage();
         offerRestore("Closed tab " + name, function() {
             addTab(name);   
             moduleTabs[name].editor.setValue(code, -1);
+            saveLocalStorage();
         });
     });
     li.appendChild(closeButton);
@@ -56,6 +59,7 @@ function addTab(name) {
         moduleTabs[name].changedSinceLast = true;
         if (moduleTabs[name].tab.classList.contains('active'))
             updateDownloadURL();
+        saveLocalStorage();
     });
     for (var k in moduleTabs) {
         moduleTabs[k].div.style.display = 'none';
