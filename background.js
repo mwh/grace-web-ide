@@ -16,6 +16,8 @@ var stderr_output = "";
 minigrace.stderr_write = function(value) {
     stderr_output += value;
 }
+minigrace.debugMode = true;
+minigrace.printStackFrames = false;
 onmessage = function(ev) {
     var cmd = ev.data;
     stderr_output = "";

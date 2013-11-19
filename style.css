@@ -21,13 +21,11 @@ html, body {
 #stderr_txt{
     width: 90vw;
     font-family: Monospace;
-    height: 20vh;
+    height: 17vh;
 }
 #stderr_list {
     width: 90vw;
     font-family: Monospace;
-    height: 20vh;
-    overflow-y: scroll;
     list-style-type: none;
     display: none;
     margin-left: 1ex;
@@ -35,12 +33,33 @@ html, body {
 }
 #stderr_area {
     clear: both;
+    overflow: auto;
+    height: 18vh;
 }
 #stdout_txt {
     width: 45vw;
     height: 70vh;
 }
 #stdout_options {
+    float: right;
+}
+.exception-popup {
+    position: absolute;
+    left: 45vw;
+    bottom: 22vh;
+    width: 45vw;
+    height: 40vh;
+    overflow-y: auto;
+    background: #eee;
+    border: 2px solid #555;
+}
+.exception-popup ol, .exception-popup ul {
+    list-style-type: none;
+}
+.exception-popup dl {
+    margin-left: 2cm;
+}
+.exception-popup button {
     float: right;
 }
 #toolbar {

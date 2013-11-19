@@ -107,6 +107,8 @@ function run() {
     var tabData = moduleTabs[module];
     var editor = tabData.editor;
     minigrace.modname = module;
+    minigrace.debugMode = true;
+    minigrace.printStackFrames = false;
     var oldstderr = $('stderr_txt').value;
     $('stderr_txt').value = "";
     var compiled = minigrace.compilerun(editor.getValue());
@@ -115,6 +117,23 @@ function run() {
     if (minigrace.compileError)
         reportCompileError($('stderr_txt').value, module, true);
     updateStderr($('stderr_txt').value, module);
+    if (minigrace.exception)
+        updateException();
+}
+
+function updateException() {
+    var list = $('stderr_list');
+    var li = $c('li');
+    var a = $c('a');
+    a.href = 'javascript:;';
+    a.addEventListener('click', function() {
+        examineException(minigrace.exception);
+    });
+    a.appendChild($t('You can examine the values of local variables '
+                + 'at the time the program stopped.'));
+    li.appendChild(a);
+    list.appendChild(li);
+    $('stderr_area').scrollTop = $('stderr_area').scrollHeight;
 }
 
 function updateStderr(stderr, module) {
@@ -130,6 +149,7 @@ function updateStderr(stderr, module) {
         } else
             list.appendChild(makeStderrLine(lines[i]));
     }
+    $('stderr_area').scrollTop = $('stderr_area').scrollHeight;
 }
 
 function makeStderrLine(line) {
