@@ -16,6 +16,16 @@ function addTab(name) {
     li.classList.add('active');
     li.addEventListener('click', tabClickListener);
     li.dataset.module = name;
+    var closeButton = $c('span');
+    closeButton.classList.add('close-button');
+    closeButton.innerHTML = '&#10060;';
+    closeButton.addEventListener('click', function() {
+        tabbar.removeChild(li);
+        div.remove();
+        moduleTabs[name] = undefined;
+        window['gracecode_' + name] = undefined;
+    });
+    li.appendChild(closeButton);
     tabbar.appendChild(li);
     var div = $c('div');
     div.classList.add('main-editor');

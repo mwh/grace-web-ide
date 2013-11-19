@@ -99,6 +99,14 @@ html, body {
 .module-tabbutton.error {
     border-color: red;
 }
+.module-tabbutton .close-button {
+    font-family: entypo;
+    font-size: 150%;
+    line-height: 50%;
+}
+.module-tabbutton .close-button:hover {
+    color: #f44;
+}
 #module-tabbar-new {
     float: right;
     border-bottom-width: 2px;
