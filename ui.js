@@ -53,3 +53,15 @@ function restoreLocalStorage() {
         })();
     }
 }
+
+function outputswitch() {
+    var tb = document.getElementById('output_area');
+    var next = document.getElementById('output-select').value;
+    if (next == 'stdout') {
+        $('stdcanvas').style.display = 'none';
+        $('stdout_txt').style.display = 'inline';
+    } else {
+        $('stdcanvas').style.display = 'inline';
+        $('stdout_txt').style.display = 'none';
+    }
+}

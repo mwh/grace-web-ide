@@ -40,8 +40,17 @@ html, body {
     width: 45vw;
     height: 70vh;
 }
-#stdout_options {
-    float: right;
+#output_area canvas {
+    width: 45vw;
+    height: 45vw;
+    max-height: 70vh;
+    border: 1px solid black;
+}
+#output_options {
+    width: auto;
+    position: absolute;
+    top: 0px;
+    left: 70vw;
 }
 .exception-popup {
     position: absolute;

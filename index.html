@@ -28,6 +28,13 @@
   </div>
   <div id="output_area">
    <textarea id="stdout_txt"></textarea>
+   <canvas id="stdcanvas" style="display: none;" id="standard-canvas" width="500" height="500"></canvas>
+  </div>
+  <div id="output_options">
+   <select id="output-select" onchange="outputswitch()">
+    <option value="stdout">Program output
+    <option value="canvas">Canvas
+   </select>:
   </div>
   <div id="stderr_area">
    <textarea id="stderr_txt"></textarea>
