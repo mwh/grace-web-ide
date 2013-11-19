@@ -1,3 +1,5 @@
+var bgMinigrace;
+
 function setUpMinigrace() {
     minigrace.stderr_write = function(value) {
         var stderr = document.getElementById("stderr_txt");
@@ -10,6 +12,39 @@ function setUpMinigrace() {
         scrollstdout();
     };
     minigrace.verbose = false;
+    bgMinigrace = new Worker("background.js");
+    bgMinigrace.onmessage = backgroundMessageReceiver;
+    setInterval(tabUpdateCheck, 1000);
+}
+
+function tabUpdateCheck() {
+    var limit = new Date().getTime() - 1000;
+    for (var k in moduleTabs) {
+        var tb = moduleTabs[k];
+        if (!tb.changedSinceLast)
+            continue;
+        if (tb.lastChange > limit)
+            continue;
+        tb.changedSinceLast = false;
+        bgMinigrace.postMessage({action: "compile", mode: "js",
+            modname: k, source: tb.editor.getValue()});
+    }
+}
+
+function backgroundMessageReceiver(ev) {
+    if (moduleTabs[ev.data.modname].changedSinceLast)
+        return;
+    if (!ev.data.success) {
+        reportCompileError(ev.data.stderr, ev.data.modname, false)
+        window['gracecode_' + ev.data.modname] = undefined;
+        return;
+    }
+    moduleTabs[ev.data.modname].tab.classList.remove('error');
+    moduleTabs[ev.data.modname].editor.getSession().clearAnnotations();
+    eval(ev.data.output);
+    var theModule;
+    eval("theModule = gracecode_" + ev.data.modname + ";");
+    window['gracecode_' + ev.data.modname] = theModule;
 }
 
 function scrollstdout() {
@@ -17,9 +52,10 @@ function scrollstdout() {
     stdout.scrollTop = stdout.scrollHeight;
 }
 
-function reportCompileError() {
-    var editor = moduleTabs[minigrace.modname].editor;
-    var lines = $('stderr_txt').value.split("\n");
+function reportCompileError(stderr, modname, interactive) {
+    moduleTabs[modname].tab.classList.add('error');
+    var editor = moduleTabs[modname].editor;
+    var lines = stderr.split("\n");
     var bits;
     var line;
     for (var i=0; i<lines.length; i++) {
@@ -31,8 +67,10 @@ function reportCompileError() {
     if (bits = line.match(/^.+\[([0-9]+)\]: (.+)$/)) {
         var linenum = +bits[1];
         var message = bits[2];
-        editor.moveCursorTo(linenum - 1, 0);
-        editor.getSelection().clearSelection();
+        if (interactive) {
+            editor.moveCursorTo(linenum - 1, 0);
+            editor.getSelection().clearSelection();
+        }
         editor.getSession().setAnnotations([{
             row: linenum - 1,
             column: 0,
@@ -44,7 +82,8 @@ function reportCompileError() {
         var linenum = +bits[1];
         var charnum = +bits[2];
         var message = bits[3];
-        if (bits = line.match(/^.+\[[^:]+:([0-9]+)-([0-9]+)/)) {
+        if (!interactive) {
+        } else if (bits = line.match(/^.+\[[^:]+:([0-9]+)-([0-9]+)/)) {
             editor.moveCursorTo(linenum - 1, charnum - 1);
             editor.getSelection().setSelectionAnchor(linenum - 1, +bits[2]);
         } else {
@@ -72,5 +111,5 @@ function run() {
     if (!compiled)
         $('stderr_txt').value = oldstderr;
     if (minigrace.compileError)
-        reportCompileError();
+        reportCompileError($('stderr_txt').value, module, interactive);
 }

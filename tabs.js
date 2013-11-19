@@ -29,14 +29,21 @@ function addTab(name) {
     editor.getSession().setTabSize(4);
     editor.commands.bindKeys({"ctrl-l":null, "ctrl-shift-r":null, "ctrl-r":null, "ctrl-t":null, "ctrl-shift-p": null})
     editor.resize();
+    editor.on('change', function(ev) {
+        moduleTabs[name].lastChange = new Date().getTime();
+        moduleTabs[name].changedSinceLast = true;
+    });
     for (var k in moduleTabs) {
         moduleTabs[k].div.style.display = 'none';
         moduleTabs[k].tab.classList.remove('active');
     }
+    editor.focus();
     moduleTabs[name] = {
         editor: editor,
         div: div,
         tab: li,
+        lastChange: 0,
+        changedSinceLast: false,
     };
 }
 
