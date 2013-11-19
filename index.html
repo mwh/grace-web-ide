@@ -13,6 +13,7 @@
   <div id="toolbar">
    <button id="runbutton" title="Run">▶</button>
    <button id="uploadbutton" title="Upload file">&#128228;</button>
+   <button id="aboutbutton">About</button>
   </div>
   <div id="code-area">
    <ul id="module-tabbar">
@@ -34,6 +35,7 @@
     $('module-tabbar-new').addEventListener('click', tabNewClickListener);
     $('runbutton').addEventListener('click', run);
     $('uploadbutton').addEventListener('click', uploadFile);
+    $('aboutbutton').addEventListener('click', aboutClickListener);
    });
   </script>
  </body>

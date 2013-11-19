@@ -91,3 +91,13 @@ html, body {
     font-family: entypo;
     font-size: 25px;
 }
+.aboutbox {
+    border: 5px solid #99c;
+    background: #eee;
+    position: absolute;
+    height: 200px;
+    width: 400px;
+    overflow-y: auto;
+    left: calc(50% - 200px);
+    top: calc(50% - 100px);
+}
