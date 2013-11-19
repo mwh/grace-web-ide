@@ -4,6 +4,9 @@ function $(n) {
 function $c(n) {
     return document.createElement(n);
 }
+function $t(n) {
+    return document.createTextNode(n);
+}
 var moduleTabs = {};
 function addTab(name) {
     var tabbar = $('module-tabbar');
@@ -52,6 +55,10 @@ function addTab(name) {
 
 function tabClickListener() {
     var name = this.dataset.module;
+    switchTab(name);
+}
+
+function switchTab(name) {
     moduleTabs[name].div.style.display = 'block';
     moduleTabs[name].tab.classList.add('active');
     for (var k in moduleTabs) {
@@ -67,4 +74,12 @@ function tabNewClickListener() {
     var name = prompt("Enter a name for the new module.");
     addTab(name);
 }
+
+function jumpTo(module, line, pos) {
+    switchTab(module);
+    var editor = moduleTabs[module].editor;
+    editor.moveCursorTo(line - 1, pos ? pos - 1 : 0);
+    editor.getSelection().clearSelection();
+}
+
 // vim: set expandtab ts=8 sw=4 tw=0: 

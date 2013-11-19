@@ -100,6 +100,8 @@ function reportCompileError(stderr, modname, interactive) {
 }
 
 function run() {
+    $('stderr_txt').style.display = 'inline';
+    $('stderr_list').style.display = 'none';
     var module = $('module-tabbar').getElementsByClassName('active')[0]
         .dataset.module;
     var tabData = moduleTabs[module];
@@ -111,7 +113,60 @@ function run() {
     if (!compiled)
         $('stderr_txt').value = oldstderr;
     if (minigrace.compileError)
-        reportCompileError($('stderr_txt').value, module, interactive);
+        reportCompileError($('stderr_txt').value, module, true);
+    updateStderr($('stderr_txt').value, module);
+}
+
+function updateStderr(stderr, module) {
+    $('stderr_txt').style.display = 'none';
+    var list = $('stderr_list');
+    list.style.display = 'inline';
+    var lines = stderr.split('\n');
+    while (list.lastChild)
+        list.removeChild(list.lastChild);
+    for (var i=0; i<lines.length; i++) {
+        if (lines[i] == 'Did you mean:') {
+            list.appendChild(makeSuggestionLine(lines[i+1], module));
+        } else
+            list.appendChild(makeStderrLine(lines[i]));
+    }
+}
+
+function makeStderrLine(line) {
+    var li = $c('li');
+    line = line.replace('&', '&amp;');
+    line = line.replace('<', '&lt;');
+    line = line.replace('>', '&gt;');
+    line = line.replace(' ', '&nbsp;');
+    line = line.replace(/([a-zA-Z0-9_]+)\.grace\[([0-9]+):([0-9]+)(.*?\])/g,
+            '<a href="javascript:jumpTo('+"'$1', $2, $3)"+';">'
+            + '$1.grace[$2:$3$4</a>');
+    line = line.replace(/ ([a-zA-Z0-9_]+):([0-9]+)/g,
+            ' <a href="javascript:jumpTo(' + "'$1', $2)" + ';">$1:$2</a>');
+    li.innerHTML = line;
+    return li;
+}
+
+function makeSuggestionLine(line, module) {
+    var li = $c('li');
+    var a = $c('a');
+    a.href = "javascript:;";
+    var res = /([0-9]+): (.*)$/.exec(line);
+    var linenum = +res[1];
+    var replacement = res[2];
+    a.addEventListener('click', function() {
+        switchTab(module);
+        var editor = moduleTabs[module].editor;
+        var text = editor.getValue();
+        var lines = text.split('\n');
+        lines[linenum-1] = replacement;
+        editor.setValue(lines.join('\n'), -1)
+        editor.moveCursorTo(linenum - 1, 0);
+        editor.getSelection().clearSelection();
+    });
+    a.appendChild($t('Did you mean:'));
+    li.appendChild(a);
+    return li;
 }
 
 function aboutClickListener() {

@@ -23,6 +23,19 @@ html, body {
     font-family: Monospace;
     height: 20vh;
 }
+#stderr_list {
+    width: 90vw;
+    font-family: Monospace;
+    height: 20vh;
+    overflow-y: scroll;
+    list-style-type: none;
+    display: none;
+    margin-left: 1ex;
+    white-space: pre-wrap;
+}
+#stderr_area {
+    clear: both;
+}
 #stdout_txt {
     width: 45vw;
     height: 70vh;
