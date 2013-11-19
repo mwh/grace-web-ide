@@ -30,6 +30,10 @@ onmessage = function(ev) {
                 stderr: stderr_output, gct: gctCache[cmd.modname],
                 modname: cmd.modname,
             });
+            var theModule;
+            eval(minigrace.generated_output);
+            eval("theModule = gracecode_" + cmd.modname + ";");
+            self['gracecode_' + cmd.modname] = theModule;
         } else {
             postMessage({success: false, stderr: stderr_output,
                 modname: cmd.modname
