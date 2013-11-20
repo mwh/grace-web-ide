@@ -9,12 +9,7 @@ function examineException(exception) {
             var vl = $c('dl');
             var numVariables = 0;
             frame.forEach(function(name, value) {
-                var dt = $c('dt');
-                dt.appendChild($t(name));
-                var dd = $c('dd');
-                dd.appendChild($t(getDebugString(value)));
-                vl.appendChild(dt);
-                vl.appendChild(dd);
+                createVarDTDD(name, value, vl);
                 numVariables++;
             });
             vl.style.display = 'none';
@@ -37,6 +32,36 @@ function examineException(exception) {
     });
 }
 
+function createVarDTDD(name, value, vl) {
+    var isUserObj = value.data;
+    var dt = $c('dt');
+    if (isUserObj)
+        dt.appendChild($t('▸'));
+    dt.appendChild($t(name));
+    var dd = $c('dd');
+    dd.appendChild($t(getDebugString(value)));
+    if (isUserObj) {
+        dd.addEventListener('click', function(ev) {
+            ev.stopPropagation();
+            var dt = this.previousSibling;
+            dt.firstChild.remove();
+            if (this.getElementsByTagName('dl').length) {
+                dt.insertBefore($t('▸'), dt.firstChild);
+                this.getElementsByTagName('dl')[0].remove();
+            } else {
+                dt.insertBefore($t('▾'), dt.firstChild);
+                offerObjectInspection(value, this);
+            }
+        });
+        dt.addEventListener('click', function(ev) {
+            ev.stopPropagation();
+            dd.click();
+        });
+    }
+    vl.appendChild(dt);
+    vl.appendChild(dd);
+}
+
 function getDebugString(value) {
     var debugString = "unknown";
     try {
@@ -56,4 +81,14 @@ function getDebugString(value) {
     if (debugString.length > 60)
         debugString = debugString.substring(0,57) + "...";
     return debugString;
+}
+
+function offerObjectInspection(obj, par) {
+    var vl = $c('dl');
+    var methods = [];
+    for (var name in obj.data) {
+        var value = obj.data[name];
+        createVarDTDD(name, value, vl);
+    }
+    par.appendChild(vl);
 }
