@@ -9,6 +9,7 @@
   <script src="file.js" async></script>
   <script src="debugger.js" async></script>
   <script src="ui.js" async></script>
+  <script src="samples.js" async></script>
   <link rel="stylesheet" type="text/css" href="style.css">
  </head>
  <body>
@@ -16,6 +17,7 @@
    <button id="runbutton" title="Run">▶</button>
    <button id="uploadbutton" title="Upload file">&#128228;</button>
    <a id="downloadbutton" title="Download file">&#128229;</a>
+   <button id="samplesbutton" title="Load a sample">Load sample</button>
    <button id="aboutbutton">About</button>
   </div>
   <div id="restore-prompt"></div>
@@ -50,6 +52,7 @@
     $('runbutton').addEventListener('click', run);
     $('uploadbutton').addEventListener('click', uploadFile);
     $('aboutbutton').addEventListener('click', aboutClickListener);
+    $('samplesbutton').addEventListener('click', samplesClickListener);
     restoreLocalStorage();
    });
   </script>
