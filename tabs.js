@@ -89,6 +89,27 @@ function tabNewClickListener() {
     addTab(name);
 }
 
+var scheduledTabs = [];
+var scheduledTabsInterval = 0;
+function scheduleTab(name, code) {
+    // The Ace editor doesn't like having multiple tabs created
+    // in very short succession - make sure they are spread out.
+    scheduledTabs.push({module: name, text: code});
+    if (!scheduledTabsInterval)
+        scheduledTabsInterval = setInterval(scheduledTabsCallback, 250);
+}
+
+function scheduledTabsCallback() {
+    var tab = scheduledTabs.shift();
+    var tb = addTab(tab.module);
+    if (tab.text)
+        tb.editor.setValue(tab.text, -1);
+    if (scheduledTabs.length == 0) {
+        clearInterval(scheduledTabsInterval);
+        scheduledTabsInterval = 0;
+    }
+}
+
 function jumpTo(module, line, pos) {
     switchTab(module);
     var editor = moduleTabs[module].editor;

@@ -59,10 +59,7 @@ function restoreLocalStorage() {
     for (var i=0; i<modules.length; i++) {
         (function() {
             var name = modules[i];
-            setTimeout(function() {
-                var tb = addTab(name);
-                tb.editor.setValue(localStorage.getItem('code:' + name), -1);
-            }, i * 250);
+            scheduleTab(name, localStorage.getItem('code:' + name));
         })();
     }
 }
