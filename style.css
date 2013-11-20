@@ -154,6 +154,32 @@ html, body {
     left: calc(50% - 200px);
     top: calc(50% - 100px);
 }
+.popup-box {
+    z-index: 1000;
+    border: 5px solid #99c;
+    background: #eee;
+    position: absolute;
+    max-width: 40%;
+    max-height: 40%;
+    overflow-y: auto;
+    left: 35%;
+    top: 20%;
+    padding: 2mm;
+    padding-right: 2cm;
+}
+.popup-box .close-button {
+    font-family: entypo;
+    font-size: 2cm;
+    line-height: 50%;
+    position: absolute;
+    top: 0mm;
+    right: 0mm;
+    border: 0;
+    background: transparent;
+}
+.popup-box .close-button:hover {
+    color: #f44;
+}
 #restore-prompt {
     position: absolute;
     background: #ff8;

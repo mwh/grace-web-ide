@@ -65,3 +65,15 @@ function outputswitch() {
         $('stdout_txt').style.display = 'none';
     }
 }
+
+function popupBox(func) {
+    var div = $c('div');
+    div.classList.add('popup-box');
+    var closeButton = $c('button');
+    closeButton.classList.add('close-button');
+    closeButton.innerHTML = '&#10060;';
+    closeButton.addEventListener('click', function() {div.remove()});
+    div.appendChild(closeButton);
+    func(div);
+    document.body.appendChild(div);
+}
