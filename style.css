@@ -22,12 +22,12 @@ html, body {
     width: 60vw;
     font-family: Monospace;
     height: 17vh;
+    display: none;
 }
 #stderr_list {
     width: 60vw;
     font-family: Monospace;
     list-style-type: none;
-    display: none;
     margin-left: 1ex;
     white-space: pre-wrap;
 }
