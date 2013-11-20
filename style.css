@@ -64,6 +64,10 @@ html, body {
 #statusbar {
     background: #eee;
     border-top: 1px solid #bbb;
+    clear:both;
+}
+#output-select {
+    margin-left: 45vw;
 }
 #stdout_txt {
     width: 45vw;
