@@ -124,6 +124,7 @@ function completeJob(jobID, state) {
         jobData[jobID].li.classList.add(state);
     }
     jobData[jobID].li.classList.add('done');
+    jobData[jobID].complete = true;
     setTimeout(function() {
         jobData[jobID].li.remove();
         delete jobData[jobID];
@@ -131,6 +132,11 @@ function completeJob(jobID, state) {
 }
 function markJobInProgress(jobID) {
     jobData[jobID].li.classList.add('running');
+}
+function isJobCompleted(jobID) {
+    if (!jobData[jobID])
+        return true;
+    return jobData[jobID].complete;
 }
 
 function aboutClickListener() {

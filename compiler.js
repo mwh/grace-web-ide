@@ -46,9 +46,11 @@ function compileTab(k, dependencies) {
         return;
     }
     tb.changedSinceLast = false;
+    var jobID = createJob("Compile " + k);
+    tb.jobID = jobID;
     bgMinigrace.postMessage({action: "compile", mode: "js",
         modname: k, source: tb.editor.getValue(),
-        jobID: createJob("Compile " + k)
+        jobID: jobID
     });
     tb.tab.classList.add('compiling');
     tb.tab.title = "Compiling in background...";
@@ -147,7 +149,8 @@ function run() {
     minigrace.printStackFrames = false;
     var oldstderr = $('stderr_txt').value;
     $('stderr_txt').value = "";
-    if (!tabData.changedSinceLast && window['gracecode_' + module]) {
+    if (!tabData.changedSinceLast && window['gracecode_' + module]
+            && (!tabData.jobID || isJobCompleted(tabData.jobID))) {
         minigrace.lastSourceCode = editor.getValue();
         minigrace.lastModname = module;
         minigrace.lastMode = 'js';
