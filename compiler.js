@@ -59,6 +59,7 @@ function backgroundMessageReceiver(ev) {
         markJobInProgress(ev.data.jobID);
         return;
     }
+    completeJob(ev.data.jobID, ev.data.success ? "good" : "bad");
     if (!moduleTabs[ev.data.modname])
         return;
     var tb = moduleTabs[ev.data.modname];
@@ -67,7 +68,6 @@ function backgroundMessageReceiver(ev) {
     if (moduleTabs[ev.data.modname].changedSinceLast)
         return;
     tb.tab.title = '';
-    completeJob(ev.data.jobID, ev.data.success ? "good" : "bad");
     if (!ev.data.success) {
         reportCompileError(ev.data.stderr, ev.data.modname, false)
         window['gracecode_' + ev.data.modname] = undefined;
