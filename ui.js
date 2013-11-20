@@ -112,7 +112,7 @@ function completeJob(jobID, state) {
     setTimeout(function() {
         jobData[jobID].li.remove();
         delete jobData[jobID];
-    }, 1000);
+    }, 750);
 }
 function markJobInProgress(jobID) {
     jobData[jobID].li.classList.add('running');
