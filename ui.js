@@ -11,6 +11,21 @@ function $c(n, properties) {
 function $t(n) {
     return document.createTextNode(n);
 }
+function $h(c) {
+    var div = $c('div');
+    div.innerHTML = c;
+    return div.firstChild;
+}
+function $ac(o, c) {
+    o.appendChild(c);
+}
+function $ha(o, c) {
+    var div = $c('div');
+    div.innerHTML = c;
+    for (var i=0; i<div.childNodes.length; i++) {
+        o.appendChild(div.childNodes[i].cloneNode());
+    }
+}
 function offerRestore(message, func) {
     var restorePrompt = $('restore-prompt');
     while (restorePrompt.lastChild)
