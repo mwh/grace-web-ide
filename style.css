@@ -91,16 +91,6 @@ html, body {
     top: 0px;
     left: 70vw;
 }
-.exception-popup {
-    position: absolute;
-    left: 45vw;
-    bottom: 22vh;
-    width: 45vw;
-    height: 40vh;
-    overflow-y: auto;
-    background: #eee;
-    border: 2px solid #555;
-}
 .exception-popup ol, .exception-popup ul {
     list-style-type: none;
 }
