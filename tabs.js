@@ -101,9 +101,11 @@ function scheduleTab(name, code) {
 
 function scheduledTabsCallback() {
     var tab = scheduledTabs.shift();
-    var tb = addTab(tab.module);
-    if (tab.text)
-        tb.editor.setValue(tab.text, -1);
+    if (!moduleTabs[tab.module]) {
+        var tb = addTab(tab.module);
+        if (tab.text)
+            tb.editor.setValue(tab.text, -1);
+    }
     if (scheduledTabs.length == 0) {
         clearInterval(scheduledTabsInterval);
         scheduledTabsInterval = 0;
