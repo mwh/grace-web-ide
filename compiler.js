@@ -230,17 +230,3 @@ function makeSuggestionLine(line, module) {
     li.appendChild(a);
     return li;
 }
-
-function aboutClickListener() {
-    var div = $c('div');
-    div.classList.add('aboutbox');
-    div.innerHTML =
-        '<p><a href="http://ecs.vuw.ac.nz/~mwh/minigrace/">Minigrace</a> '
-        + 'version ' + MiniGrace.version + '/' + MiniGrace.revision + '</p>'
-        + '<p>Entypo pictograms by Daniel Bruce — '
-        + '<a href="http://www.entypo.com/">www.entypo.com</a></p>'
-        + '<input type="button" onclick="'
-        + "document.getElementsByClassName('aboutbox')[0].remove()"
-        + '" value="Close" >';
-    document.body.appendChild(div);
-}

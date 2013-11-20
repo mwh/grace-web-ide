@@ -190,17 +190,6 @@ html, body {
     color: black;
     text-decoration: none;
 }
-.aboutbox {
-    border: 5px solid #99c;
-    background: #eee;
-    position: absolute;
-    height: 200px;
-    width: 400px;
-    overflow-y: auto;
-    left: calc(50% - 200px);
-    top: calc(50% - 100px);
-    z-index: 1000;
-}
 .popup-box {
     z-index: 1000;
     border: 5px solid #99c;
