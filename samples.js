@@ -14,26 +14,20 @@ function loadSampleJS(k) {
     if (window[k])
         return;
     var sample = samples[k];
-    document.getElementById('stderr_txt').value += "\nUI: Loading sample dependency " + sample.name;
     var req = new XMLHttpRequest();
-    req.open("GET", "./sample/" + sample.dir + '/' + k + ".js", false);
+    req.open("GET", "./samples/" + sample.dir + '/' + k + ".js", true);
+    req.onreadystatechange = function() {
+        if (req.readyState == 4 && req.status == 200) {
+            var theModule;
+            eval(req.responseText);
+            eval("theModule = gracecode_" + k + ";");
+            window['gracecode_' + k] = theModule;
+        }
+    };
     req.send(null);
-    if (req.status == 200) {
-        var theModule;
-        eval(req.responseText);
-        eval("theModule = gracecode_" + k + ";");
-        window['gracecode_' + k] = theModule;
-    } else {
-        alert("Loading sample JavaScript code failed: retrieving " + k +
-                " returned " + req.status);
-    }
-    req.open("GET", "./samples/" + sample.dir + '/' + k + ".gct", false);
-    req.send(null);
-    if (req.status == 200) {
-        gctCache[k] = req.responseText;
-    } else {
-        alert("Loading sample JavaScript code metadata failed: retrieving "
-                + k + " returned " + req.status);
+    if (sample.requires) {
+        for (var i=0; i<sample.requires.length; i++)
+            loadSampleJS(sample.requires[i]);
     }
 }
 
@@ -67,8 +61,9 @@ function samplesClickListener() {
         div.appendChild(select);
         var loadButton = $c('input', {'type': 'button', value: 'Load'});
         loadButton.addEventListener('click', function() {
-            loadSample(select.value);
             div.remove();
+            loadSample(select.value);
+            loadSampleJS(select.value);
         });
         div.appendChild(loadButton);
     });
