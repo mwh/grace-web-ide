@@ -141,5 +141,17 @@ function aboutClickListener() {
             + '<p>Entypo pictograms by Daniel Bruce — '
             + '<a href="http://www.entypo.com/">www.entypo.com</a></p>'
         );
+        var appendGitLine = function(rev) {
+            $ha(div, '<p>IDE revision ' + rev + '</p>');
+        }
+        getFile("./.git/HEAD", function(text) {
+            if (text.substring(0, 5) == "ref: ") {
+                getFile("./.git/" + text.substring(5), function(ref) {
+                    appendGitLine(ref);
+                });
+            } else if (/^[0-9a-f]+$/.test(text)) {
+                appendGitLine(text);
+            }
+        });
     });
 }
