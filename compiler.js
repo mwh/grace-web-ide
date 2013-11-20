@@ -27,13 +27,19 @@ function tabUpdateCheck() {
             continue;
         tb.changedSinceLast = false;
         bgMinigrace.postMessage({action: "compile", mode: "js",
-            modname: k, source: tb.editor.getValue()});
+            modname: k, source: tb.editor.getValue(),
+            jobID: createJob("Compile " + k)
+        });
         tb.tab.classList.add('compiling');
         tb.tab.title = "Compiling in background...";
     }
 }
 
 function backgroundMessageReceiver(ev) {
+    if (ev.data.state == 'compiling') {
+        markJobInProgress(ev.data.jobID);
+        return;
+    }
     if (!moduleTabs[ev.data.modname])
         return;
     var tb = moduleTabs[ev.data.modname];
@@ -41,6 +47,7 @@ function backgroundMessageReceiver(ev) {
     if (moduleTabs[ev.data.modname].changedSinceLast)
         return;
     tb.tab.title = '';
+    completeJob(ev.data.jobID, ev.data.success ? "good" : "bad");
     if (!ev.data.success) {
         reportCompileError(ev.data.stderr, ev.data.modname, false)
         window['gracecode_' + ev.data.modname] = undefined;

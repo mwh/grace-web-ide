@@ -43,7 +43,7 @@ function addTab(name) {
     editor.setShowPrintMargin(false);
     editor.getSession().setUseSoftTabs(true);
     editor.getSession().setTabSize(4);
-    editor.commands.bindKeys({"ctrl-l":null, "ctrl-shift-r":null, "ctrl-r":null, "ctrl-t":null, "ctrl-shift-p": null})
+    editor.commands.bindKeys({"ctrl-l":null, "ctrl-shift-r":null, "ctrl-r":null, "ctrl-t":null, "ctrl-shift-p": null, "ctrl-shift-k": null})
     editor.resize();
     editor.on('change', function(ev) {
         moduleTabs[name].lastChange = new Date().getTime();

@@ -22,13 +22,14 @@ onmessage = function(ev) {
     var cmd = ev.data;
     stderr_output = "";
     if (cmd.action == "compile") {
+        postMessage({state: "compiling", jobID: cmd.jobID});
         minigrace.modname = cmd.modname;
         minigrace.mode = cmd.mode;
         minigrace.compile(cmd.source);
         if (!minigrace.compileError) {
             postMessage({success: true, output: minigrace.generated_output,
                 stderr: stderr_output, gct: gctCache[cmd.modname],
-                modname: cmd.modname,
+                modname: cmd.modname, jobID: cmd.jobID
             });
             var theModule;
             eval(minigrace.generated_output);
@@ -36,7 +37,7 @@ onmessage = function(ev) {
             self['gracecode_' + cmd.modname] = theModule;
         } else {
             postMessage({success: false, stderr: stderr_output,
-                modname: cmd.modname
+                modname: cmd.modname, jobID: cmd.jobID
             });
         }
     } else if (cmd.action == "importFile") {

@@ -88,3 +88,32 @@ function popupBox(func) {
     func(div);
     document.body.appendChild(div);
 }
+
+var jobData = {};
+var jobCount = 0;
+function createJob(s) {
+    var jobList = $('job_list');
+    var jobID = "job" + jobCount++;
+    var li = $c('li');
+    li.appendChild($t(s));
+    jobList.appendChild(li);
+    jobData[jobID] = {
+        message: s,
+        li: li
+    };
+    return jobID;
+}
+function completeJob(jobID, state) {
+    jobData[jobID].li.classList.remove('running');
+    if (state) {
+        jobData[jobID].li.classList.add(state);
+    }
+    jobData[jobID].li.classList.add('done');
+    setTimeout(function() {
+        jobData[jobID].li.remove();
+        delete jobData[jobID];
+    }, 1000);
+}
+function markJobInProgress(jobID) {
+    jobData[jobID].li.classList.add('running');
+}
