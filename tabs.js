@@ -12,21 +12,7 @@ function addTab(name) {
     closeButton.innerHTML = '&#10060;';
     closeButton.addEventListener('click', function(ev) {
         ev.stopPropagation();
-        var code = editor.getValue();
-        if (tabbar.lastChild.dataset.module
-            && moduleTabs[name].tab.classList.contains('active'))
-            switchTab(tabbar.lastChild.dataset.module);
-        tabbar.removeChild(li);
-        div.remove();
-        delete moduleTabs[name];
-        window['gracecode_' + name] = undefined;
-        sessionStorage.removeItem('code:' + name);
-        saveLocalStorage();
-        offerRestore("Closed tab " + name, function() {
-            addTab(name);   
-            moduleTabs[name].editor.setValue(code, -1);
-            saveLocalStorage();
-        });
+        closeTab(name);
     });
     li.appendChild(closeButton);
     tabbar.appendChild(li);
@@ -82,6 +68,37 @@ function switchTab(name) {
         }
     }
     updateDownloadURL();
+}
+
+function closeTab(name) {
+    var tabbar = $('module-tabbar');
+    var tab = moduleTabs[name];
+    if (tab.tab.classList.contains('active')) {
+        var newActive;
+        for (var i=0; i<tabbar.childNodes.length; i++) {
+            if (tabbar.childNodes[i] != tab.tab
+                    && tabbar.childNodes[i].dataset
+                    && tabbar.childNodes[i].dataset.module
+                    && tabbar.childNodes[i].dataset.module != name)
+                newActive = tabbar.childNodes[i].dataset.module;
+        }
+        if (newActive)
+            switchTab(newActive);
+    }
+    var li = tab.tab;
+    var div = tab.div;
+    tabbar.removeChild(li);
+    div.remove();
+    delete moduleTabs[name];
+    window['gracecode_' + name] = undefined;
+    sessionStorage.removeItem('code:' + name);
+    saveLocalStorage();
+    var code = tab.editor.getValue();
+    offerRestore("Closed tab " + name, function() {
+        addTab(name);
+        moduleTabs[name].editor.setValue(code, -1);
+        saveLocalStorage();
+    });
 }
 
 function tabNewClickListener() {
