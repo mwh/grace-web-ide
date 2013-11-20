@@ -54,6 +54,7 @@ function restoreLocalStorage() {
         var tb = moduleTabs[k];
         tb.div.remove();
         tb.tab.remove();
+        delete moduleTabs[k];
     }
     var modules = localStorage.getItem('modules').split(',');
     for (var i=0; i<modules.length; i++) {
