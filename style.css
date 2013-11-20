@@ -19,23 +19,29 @@ html, body {
     float: left;
 }
 #stderr_txt{
-    width: 70vw;
+    width: 60vw;
     font-family: Monospace;
     height: 17vh;
 }
 #stderr_list {
-    width: 70vw;
+    width: 60vw;
     font-family: Monospace;
     list-style-type: none;
     display: none;
     margin-left: 1ex;
     white-space: pre-wrap;
 }
+#stderr_list li {
+    max-width: 60vw;
+}
 #stderr_area {
+    clear: left;
+    float: left;
     border-top: 1px solid gray;
     clear: both;
     overflow: auto;
     height: 18vh;
+    width: 67vw;
 }
 #job_block {
     display: block;
