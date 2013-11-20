@@ -147,6 +147,12 @@ function run() {
     minigrace.printStackFrames = false;
     var oldstderr = $('stderr_txt').value;
     $('stderr_txt').value = "";
+    if (!tabData.changedSinceLast && window['gracecode_' + module]) {
+        minigrace.lastSourceCode = editor.getValue();
+        minigrace.lastModname = module;
+        minigrace.lastMode = 'js';
+        minigrace.lastDebugMode = true;
+    }
     var compiled = minigrace.compilerun(editor.getValue());
     if (!compiled)
         $('stderr_txt').value = oldstderr;
