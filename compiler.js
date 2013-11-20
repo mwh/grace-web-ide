@@ -152,10 +152,12 @@ function run() {
         minigrace.lastModname = module;
         minigrace.lastMode = 'js';
         minigrace.lastDebugMode = true;
+        minigrace.run();
+    } else {
+        var compiled = minigrace.compilerun(editor.getValue());
+        if (!compiled)
+            $('stderr_txt').value = oldstderr;
     }
-    var compiled = minigrace.compilerun(editor.getValue());
-    if (!compiled)
-        $('stderr_txt').value = oldstderr;
     if (minigrace.compileError)
         reportCompileError($('stderr_txt').value, module, true);
     updateStderr($('stderr_txt').value, module);
