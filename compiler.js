@@ -25,14 +25,33 @@ function tabUpdateCheck() {
             continue;
         if (tb.lastChange > limit)
             continue;
-        tb.changedSinceLast = false;
-        bgMinigrace.postMessage({action: "compile", mode: "js",
-            modname: k, source: tb.editor.getValue(),
-            jobID: createJob("Compile " + k)
-        });
-        tb.tab.classList.add('compiling');
-        tb.tab.title = "Compiling in background...";
+        if (tb.noCompile)
+            continue;
+        compileTab(k);
     }
+}
+
+function compileTab(k, dependencies) {
+    var tb = moduleTabs[k];
+    if (dependencies) {
+        for (var i=0; i<dependencies.length; i++) {
+            if (!window['gracecode_' + dependencies[i]]) {
+                setTimeout(function() {compileTab(k, dependencies);}, 1000);
+                return;
+            }
+        }
+    }
+    if (!tb) {
+        setTimeout(function() {compileTab(k, dependencies);}, 1000);
+        return;
+    }
+    tb.changedSinceLast = false;
+    bgMinigrace.postMessage({action: "compile", mode: "js",
+        modname: k, source: tb.editor.getValue(),
+        jobID: createJob("Compile " + k)
+    });
+    tb.tab.classList.add('compiling');
+    tb.tab.title = "Compiling in background...";
 }
 
 function backgroundMessageReceiver(ev) {
@@ -44,6 +63,7 @@ function backgroundMessageReceiver(ev) {
         return;
     var tb = moduleTabs[ev.data.modname];
     tb.tab.classList.remove('compiling');
+    moduleTabs[ev.data.modname].noCompile = false;
     if (moduleTabs[ev.data.modname].changedSinceLast)
         return;
     tb.tab.title = '';

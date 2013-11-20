@@ -91,10 +91,10 @@ function tabNewClickListener() {
 
 var scheduledTabs = [];
 var scheduledTabsInterval = 0;
-function scheduleTab(name, code) {
+function scheduleTab(name, code, noCompile) {
     // The Ace editor doesn't like having multiple tabs created
     // in very short succession - make sure they are spread out.
-    scheduledTabs.push({module: name, text: code});
+    scheduledTabs.push({module: name, text: code, noCompile: noCompile});
     if (!scheduledTabsInterval)
         scheduledTabsInterval = setInterval(scheduledTabsCallback, 250);
 }
@@ -103,6 +103,7 @@ function scheduledTabsCallback() {
     var tab = scheduledTabs.shift();
     if (!moduleTabs[tab.module]) {
         var tb = addTab(tab.module);
+        tb.noCompile = tab.noCompile;
         if (tab.text)
             tb.editor.setValue(tab.text, -1);
     }

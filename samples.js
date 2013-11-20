@@ -14,21 +14,26 @@ function loadSampleJS(k) {
     if (window[k])
         return;
     var sample = samples[k];
+    var jobID = createJob("Load " + k + "'s precompiled JavaScript");
     var req = new XMLHttpRequest();
     req.open("GET", "./samples/" + sample.dir + '/' + k + ".js", true);
     req.onreadystatechange = function() {
-        if (req.readyState == 4 && req.status == 200) {
-            var theModule;
-            eval(req.responseText);
-            eval("theModule = gracecode_" + k + ";");
-            window['gracecode_' + k] = theModule;
+        if (req.readyState == 4) {
+            if (req.status == 200) {
+                var theModule;
+                eval(req.responseText);
+                eval("theModule = gracecode_" + k + ";");
+                window['gracecode_' + k] = theModule;
+                bgMinigrace.postMessage({action: 'import', modname: k,
+                    code: req.responseText});
+                completeJob(jobID, 'good');
+            } else {
+                compileTab(k, sample.requires);
+                completeJob(jobID, 'bad');
+            }
         }
     };
     req.send(null);
-    if (sample.requires) {
-        for (var i=0; i<sample.requires.length; i++)
-            loadSampleJS(sample.requires[i]);
-    }
 }
 
 function loadSample(k) {
@@ -44,7 +49,8 @@ function loadSample(k) {
         if (req.readyState == 4) {
             if (req.status == 200) {
                 completeJob(jobID, 'good');
-                scheduleTab(k, req.responseText);
+                scheduleTab(k, req.responseText, true);
+                loadSampleJS(k);
             } else
                 completeJob(jobID, 'bad');
         }
@@ -68,7 +74,6 @@ function samplesClickListener() {
         loadButton.addEventListener('click', function() {
             div.remove();
             loadSample(select.value);
-            loadSampleJS(select.value);
         });
         div.appendChild(loadButton);
     });
