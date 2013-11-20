@@ -23,6 +23,11 @@ function loadSampleJS(k) {
         bgMinigrace.postMessage({action: 'import', modname: k,
             code: text});
         completeJob(jobID, 'good');
+        if (moduleTabs[k]) {
+            moduleTabs[k].noCompile = false;
+            moduleTabs[k].changedSinceLast = false;
+        } else
+            updateScheduledTab(k, {noCompile: false, noImmediateCompile: true});
     }, function() {
         compileTab(k, sample.requires);
         completeJob(jobID, 'bad');

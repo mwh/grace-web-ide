@@ -106,10 +106,23 @@ function scheduledTabsCallback() {
         tb.noCompile = tab.noCompile;
         if (tab.text)
             tb.editor.setValue(tab.text, -1);
+        if (tab.noImmediateCompile)
+            tb.changedSinceLast = false;
     }
     if (scheduledTabs.length == 0) {
         clearInterval(scheduledTabsInterval);
         scheduledTabsInterval = 0;
+    }
+}
+
+function updateScheduledTab(name, delta) {
+    for (var i=0; i<scheduledTabs.length; i++) {
+        var tab = scheduledTabs[i];
+        if (tab.module == name) {
+            for (var k in delta) {
+                tab[k] = delta[k];
+            }
+        }
     }
 }
 
