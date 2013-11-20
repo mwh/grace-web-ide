@@ -28,19 +28,26 @@ function tabUpdateCheck() {
         tb.changedSinceLast = false;
         bgMinigrace.postMessage({action: "compile", mode: "js",
             modname: k, source: tb.editor.getValue()});
+        tb.tab.classList.add('compiling');
+        tb.tab.title = "Compiling in background...";
     }
 }
 
 function backgroundMessageReceiver(ev) {
     if (!moduleTabs[ev.data.modname])
         return;
+    var tb = moduleTabs[ev.data.modname];
+    tb.tab.classList.remove('compiling');
     if (moduleTabs[ev.data.modname].changedSinceLast)
         return;
+    tb.tab.title = '';
     if (!ev.data.success) {
         reportCompileError(ev.data.stderr, ev.data.modname, false)
         window['gracecode_' + ev.data.modname] = undefined;
         return;
     }
+    tb.tab.classList.add('success');
+    setTimeout(function() {tb.tab.classList.remove('success')}, 500);
     moduleTabs[ev.data.modname].tab.classList.remove('error');
     moduleTabs[ev.data.modname].editor.getSession().clearAnnotations();
     eval(ev.data.output);

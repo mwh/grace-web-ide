@@ -32,9 +32,14 @@ html, body {
     white-space: pre-wrap;
 }
 #stderr_area {
+    border-top: 1px solid gray;
     clear: both;
     overflow: auto;
     height: 18vh;
+}
+#statusbar {
+    background: #eee;
+    border-top: 1px solid #bbb;
 }
 #stdout_txt {
     width: 45vw;
@@ -96,11 +101,18 @@ html, body {
     cursor: default;
     height: 2ex;
     border-bottom: 1px solid #bbb;
+    transition: border-color 0.25s;
 }
 .module-tabbutton.active {
     border-color: #99d;
     font-weight: bold;
     border-bottom-color: white !important;
+}
+.module-tabbutton.compiling {
+    border-color: orange;
+}
+.module-tabbutton.success {
+    border-color: #0f0;
 }
 .module-tabbutton:hover {
     border-color: #cc7;
