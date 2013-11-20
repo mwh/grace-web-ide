@@ -33,18 +33,23 @@ function loadSampleJS(k) {
 
 function loadSample(k) {
     var sample = samples[k];
-    document.getElementById('stderr_txt').value = "UI: Loading " + sample.name;
     if (sample.requires) {
         for (var i=0; i<sample.requires.length; i++)
             loadSample(sample.requires[i]);
     }
+    var jobID = createJob("Load " + k + " sample");
     var req = new XMLHttpRequest();
-    req.open("GET", "./samples/" + sample.dir + '/' + k + ".grace", false);
-    req.send(null);
-    if (req.status == 200) {
-        scheduleTab(k, req.responseText);
+    req.open("GET", "./samples/" + sample.dir + '/' + k + ".grace", true);
+    req.onreadystatechange = function() {
+        if (req.readyState == 4) {
+            if (req.status == 200) {
+                completeJob(jobID, 'good');
+                scheduleTab(k, req.responseText);
+            } else
+                completeJob(jobID, 'bad');
+        }
     }
-    document.getElementById('stderr_txt').value += "\nUI: done loading sample.\n";
+    req.send(null);
 }
 
 function samplesClickListener() {
