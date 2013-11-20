@@ -1,12 +1,3 @@
-function $(n) {
-    return document.getElementById(n);
-}
-function $c(n) {
-    return document.createElement(n);
-}
-function $t(n) {
-    return document.createTextNode(n);
-}
 var moduleTabs = {};
 function addTab(name) {
     var tabbar = $('module-tabbar');

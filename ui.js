@@ -1,3 +1,16 @@
+function $(n) {
+    return document.getElementById(n);
+}
+function $c(n, properties) {
+    var el = document.createElement(n);
+    if (properties)
+        for (var k in properties)
+            el[k] = properties[k];
+    return el;
+}
+function $t(n) {
+    return document.createTextNode(n);
+}
 function offerRestore(message, func) {
     var restorePrompt = $('restore-prompt');
     while (restorePrompt.lastChild)
