@@ -131,7 +131,7 @@ function samplesClickListener() {
                     if (j)
                         $ac(req, $t(", "));
                     var a = $c('a');
-                    $ac(a, $t(samp.requires[j]));
+                    $ac(a, $t(samples[samp.requires[j]].name));
                     a.href = "javascript:;";
                     a.dataset.module = samp.requires[j];
                     a.dataset.relative = s;
@@ -149,7 +149,7 @@ function samplesClickListener() {
                     if (j)
                         $ac(req, $t(", "));
                     var a = $c('a');
-                    $ac(a, $t(samp.usedBy[j]));
+                    $ac(a, $t(samples[samp.usedBy[j]].name));
                     a.href = "javascript:;";
                     a.dataset.module = samp.usedBy[j];
                     a.dataset.relative = s;
