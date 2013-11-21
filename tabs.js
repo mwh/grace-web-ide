@@ -12,6 +12,8 @@ function addTab(name) {
             li.childNodes[0].textContent = name;
             return;
         }
+        if (name == newName)
+            return;
         moduleTabs[newName] = moduleTabs[name];
         delete moduleTabs[name];
         window['gracecode_' + name] = undefined;
