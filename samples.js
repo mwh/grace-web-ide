@@ -51,23 +51,37 @@ function loadSample(k) {
 }
 
 function samplesClickListener() {
-    popupBox(function(div) {
-        div.appendChild($t("Choose a sample to load"));
-        div.appendChild($c('br'));
-        var select = $c('select');
+    popupBox(function(odiv) {
+        odiv.appendChild($t("Choose a sample to load"));
+        var div = $c('div', {style: "clear: both; overflow-y: auto; max-height: 40vh;"});
+        odiv.appendChild(div);
         for (var s in samples) {
-            var opt = document.createElement('option');
-            opt.value = s;
-            opt.innerHTML = samples[s].name;
-            select.appendChild(opt);
+            var samp = samples[s];
+            var sdiv = $c('div');
+            var title = $c('h2');
+            $ac(title, $t(samp.name));
+            $ac(sdiv, title);
+            var loadButton = $c('input', {'type': 'button', value: 'Load',
+                'style': 'float: right;'});
+            loadButton.addEventListener('click', function() {
+                odiv.remove();
+                loadSample(this.dataset.module);
+            });
+            loadButton.dataset.module = s;
+            if (samp.description) {
+                var req = $c('p');
+                $ac(req, $t(samp.description));
+                $ac(sdiv, req);
+            }
+            if (samp.requires && samp.requires.length) {
+                var req = $c('p');
+                $ac(req, $t("Depends on: "));
+                $ac(req, $t(samp.requires.join(", ")));
+                $ac(sdiv, req);
+            }
+            $ac(sdiv, loadButton);
+            $ac(div, sdiv);
         }
-        div.appendChild(select);
-        var loadButton = $c('input', {'type': 'button', value: 'Load'});
-        loadButton.addEventListener('click', function() {
-            div.remove();
-            loadSample(select.value);
-        });
-        div.appendChild(loadButton);
     });
 }
 
