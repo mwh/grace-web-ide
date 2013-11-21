@@ -87,6 +87,17 @@ function samplesClickListener() {
                             el.style.display = 'block';
                     }
                 }
+                var lastDisplayed;
+                for (var i=div.childNodes.length-1; i>=0; i--) {
+                    if (div.childNodes[i].style.display == 'none'
+                        && lastDisplayed) {
+                        var d = div.childNodes[i];
+                        d.remove();
+                        div.insertBefore(d, lastDisplayed.nextSibling);
+                    } else if (!lastDisplayed) {
+                        lastDisplayed = div.childNodes[i];
+                    }
+                }
             });
         }
         odiv.appendChild(fdiv);
@@ -123,8 +134,9 @@ function samplesClickListener() {
                     $ac(a, $t(samp.requires[j]));
                     a.href = "javascript:;";
                     a.dataset.module = samp.requires[j];
+                    a.dataset.relative = s;
                     a.addEventListener('click', function() {
-                        jumpTo(this.dataset.module);
+                        jumpTo(this.dataset.module, this.dataset.relative);
                     });
                     $ac(req, a);
                 }
@@ -132,8 +144,13 @@ function samplesClickListener() {
             }
             $ac(div, sdiv);
         }
-        var jumpTo = function(name) {
+        var jumpTo = function(name, relativeTo) {
             sampDivs[name].style.display = 'block';
+            if (relativeTo) {
+                var relDiv = sampDivs[relativeTo];
+                sampDivs[name].remove();
+                div.insertBefore(sampDivs[name], sampDivs[relativeTo]);
+            }
             div.scrollTop = sampDivs[name].offsetTop - 100;
             highlight(sampDivs[name]);
         }
