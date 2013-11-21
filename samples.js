@@ -54,10 +54,48 @@ function samplesClickListener() {
     popupBox(function(odiv) {
         odiv.appendChild($t("Choose a sample to load"));
         var div = $c('div', {style: "clear: both; overflow-y: auto; max-height: 40vh;"});
+        var categories = {"All": []};
+        for (var s in samples) {
+            var samp = samples[s];
+            categories["All"].push(s);
+            if (!samp.categories)
+                continue;
+            var cats = samp.categories;
+            for (var i=0; i<cats.length; i++) {
+                if (!categories[cats[i]])
+                    categories[cats[i]] = [];
+                categories[cats[i]].push(s);
+            }
+        }
+        var fdiv = $c('div');
+        $ac(fdiv, $t("Filter: "));
+        for (var cat in categories) {
+            var cl = $c('a');
+            $ac(cl, $t(cat + " (" + categories[cat].length + ") "));
+            $ac(fdiv, cl);
+            cl.dataset.category = cat;
+            cl.addEventListener('click', function() {
+                for (var i=0; i<div.childNodes.length; i++) {
+                    var el = div.childNodes[i];
+                    var cur = categories[this.dataset.category];
+                    if (!el.dataset)
+                        continue;
+                    el.style.display = 'none';
+                    for (var j=0; j<cur.length;j++) {
+                        if (cur[j] == el.dataset.module)
+                            el.style.display = 'block';
+                    }
+                }
+            });
+        }
+        odiv.appendChild(fdiv);
         odiv.appendChild(div);
+        var sampDivs = {};
         for (var s in samples) {
             var samp = samples[s];
             var sdiv = $c('div');
+            sampDivs[s] = sdiv;
+            sdiv.dataset.module = s;
             var title = $c('h2');
             $ac(title, $t(samp.name));
             $ac(sdiv, title);
