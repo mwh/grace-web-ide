@@ -115,12 +115,27 @@ function samplesClickListener() {
             }
             if (samp.requires && samp.requires.length) {
                 var req = $c('p');
-                $ac(req, $t("Depends on: "));
-                $ac(req, $t(samp.requires.join(", ")));
+                $ac(req, $t("Uses: "));
+                for (var j=0; j<samp.requires.length; j++) {
+                    if (j)
+                        $ac(req, $t(", "));
+                    var a = $c('a');
+                    $ac(a, $t(samp.requires[j]));
+                    a.href = "javascript:;";
+                    a.dataset.module = samp.requires[j];
+                    a.addEventListener('click', function() {
+                        jumpTo(this.dataset.module);
+                    });
+                    $ac(req, a);
+                }
                 $ac(sdiv, req);
             }
-            $ac(sdiv, loadButton);
             $ac(div, sdiv);
+        }
+        var jumpTo = function(name) {
+            sampDivs[name].style.display = 'block';
+            div.scrollTop = sampDivs[name].offsetTop - 100;
+            highlight(sampDivs[name]);
         }
     });
 }
