@@ -161,3 +161,8 @@ function aboutClickListener() {
         });
     });
 }
+
+function highlight(el) {
+    el.classList.add('flash');
+    setTimeout(function() {el.classList.remove('flash');}, 1500);
+}

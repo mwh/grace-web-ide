@@ -238,3 +238,17 @@ html, body {
     top: 5px;
     text-align: center;
 }
+@keyframes flash {
+    15% {
+        background: #ff8;
+    }
+}
+@-webkit-keyframes flash {
+    15% {
+        background: #ff8;
+    }
+}
+.flash {
+    animation: flash 2.5s;
+    -webkit-animation: flash 2.5s;
+}
