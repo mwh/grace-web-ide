@@ -142,6 +142,24 @@ function samplesClickListener() {
                 }
                 $ac(sdiv, req);
             }
+            if (samp.usedBy && samp.usedBy.length) {
+                var req = $c('p');
+                $ac(req, $t("Used by: "));
+                for (var j=0; j<samp.usedBy.length; j++) {
+                    if (j)
+                        $ac(req, $t(", "));
+                    var a = $c('a');
+                    $ac(a, $t(samp.usedBy[j]));
+                    a.href = "javascript:;";
+                    a.dataset.module = samp.usedBy[j];
+                    a.dataset.relative = s;
+                    a.addEventListener('click', function() {
+                        jumpTo(this.dataset.module, this.dataset.relative);
+                    });
+                    $ac(req, a);
+                }
+                $ac(sdiv, req);
+            }
             $ac(div, sdiv);
         }
         var jumpTo = function(name, relativeTo) {
@@ -160,5 +178,12 @@ function samplesClickListener() {
 window.addEventListener('load', function() {
     getFile("./samples/index.json", function(text) {
         samples = JSON.parse(text);
+        for (var s in samples)
+            samples[s].usedBy = [];
+        for (var s in samples) {
+            if (samples[s].requires)
+                for (var i=0; i<samples[s].requires.length; i++)
+                    samples[samples[s].requires[i]].usedBy.push(s);
+        }
     });
 });
