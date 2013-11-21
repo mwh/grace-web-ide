@@ -14,11 +14,11 @@ function setUpMinigrace() {
     minigrace.verbose = false;
     bgMinigrace = new Worker("background.js");
     bgMinigrace.onmessage = backgroundMessageReceiver;
-    setInterval(tabUpdateCheck, 1000);
+    setInterval(tabUpdateCheck, 500);
 }
 
 function tabUpdateCheck() {
-    var limit = new Date().getTime() - 1000;
+    var limit = new Date().getTime() - 500;
     for (var k in moduleTabs) {
         var tb = moduleTabs[k];
         if (!tb.changedSinceLast)
