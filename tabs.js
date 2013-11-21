@@ -1,11 +1,17 @@
 var moduleTabs = {};
 function addTab(name) {
+    if (!validateModuleName(name))
+        return null;
     var tabbar = $('module-tabbar');
     var li = $c('li');
     li.classList.add('module-tabbutton');
     var nameSpan = $c('span');
     $ac(nameSpan, $t(name));
     makeEditable(nameSpan, function(newName) {
+        if (!validateModuleName(newName)) {
+            li.childNodes[0].textContent = name;
+            return;
+        }
         moduleTabs[newName] = moduleTabs[name];
         delete moduleTabs[name];
         window['gracecode_' + name] = undefined;
@@ -127,7 +133,8 @@ function closeTab(name) {
 
 function tabNewClickListener() {
     var name = prompt("Enter a name for the new module.");
-    addTab(name);
+    if (name)
+        addTab(name);
 }
 
 var scheduledTabs = [];

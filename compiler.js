@@ -247,3 +247,12 @@ function makeSuggestionLine(line, module) {
     li.appendChild(a);
     return li;
 }
+
+function validateModuleName(name) {
+    if (/[[\]()!@#$%^&-=+{};:'"?><`~ \/\\]/.test(name)) {
+        alert("'" + name + "' is not a valid module name. "
+                + "Try again without spaces or special characters.");
+        return false;
+    }
+    return true;
+}
