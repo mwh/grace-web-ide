@@ -109,6 +109,12 @@ function reportCompileError(stderr, modname, interactive) {
             editor.moveCursorTo(linenum - 1, 0);
             editor.getSelection().clearSelection();
         }
+        moduleTabs[modname].lineClick = function(num) {
+            if (num == linenum - 1) {
+                reportCompileError(stderr, modname, true);
+                updateStderr(stderr, modname);
+            }
+        };
         editor.getSession().setAnnotations([{
             row: linenum - 1,
             column: 0,
@@ -128,6 +134,12 @@ function reportCompileError(stderr, modname, interactive) {
             editor.moveCursorTo(linenum - 1, charnum - 1);
             editor.getSelection().clearSelection();
         }
+        moduleTabs[modname].lineClick = function(num) {
+            if (num == linenum - 1) {
+                reportCompileError(stderr, modname, true);
+                updateStderr(stderr, modname);
+            }
+        };
         editor.getSession().setAnnotations([{
             row: linenum - 1,
             column: charnum - 1,

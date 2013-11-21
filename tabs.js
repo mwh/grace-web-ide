@@ -38,6 +38,18 @@ function addTab(name) {
             updateDownloadURL();
         saveLocalStorage();
     });
+    editor.on('guttermousedown', function(e) {
+        if (!moduleTabs[name].lineClick)
+            return;
+        var target = e.domEvent.target;
+        if (target.className.indexOf("ace_gutter-cell") == -1)
+            return;
+        if (e.clientX > 25 + target.getBoundingClientRect().left)
+            return;
+        var row = e.getDocumentPosition().row
+        e.stop();
+        moduleTabs[name].lineClick(row);
+    });
     for (var k in moduleTabs) {
         moduleTabs[k].div.style.display = 'none';
         moduleTabs[k].tab.classList.remove('active');
