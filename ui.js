@@ -166,3 +166,42 @@ function highlight(el) {
     el.classList.add('flash');
     setTimeout(function() {el.classList.remove('flash');}, 1500);
 }
+
+function makeEditable(el, saveCallback) {
+    el.saveCallback = saveCallback;
+    el.addEventListener('dblclick', editElement);
+}
+
+function editElement(ev) {
+    ev.stopPropagation();
+    var input = $c('input', {type: 'text',
+        style: 'border: 0; padding: 0; margin: 0;'});
+    saveCallback = this.saveCallback;
+    input.value = this.textContent;
+    input.style.width = this.offsetWidth + 'px';
+    input.style.height = this.offsetHeight + 'px';
+    var cs = getComputedStyle(this);
+    input.style.fontFamily = cs.fontFamily;
+    input.style.fontSize = cs.fontSize;
+    input.style.fontWeight = cs.fontWeight;
+    input.style.background = '#ccf';
+    var nodeType = this.tagName;
+    input.addEventListener('keypress', function(ev) {
+        if (ev.keyCode == 13) // Enter
+            finishElementEdit(this, nodeType, saveCallback);
+    });
+    input.addEventListener('blur', function(ev) {
+        finishElementEdit(this, nodeType, saveCallback);
+    });
+    this.parentNode.replaceChild(input, this);
+    input.focus();
+    highlight(input);
+}
+
+function finishElementEdit(input, nodeType, saveCallback) {
+    var el = $c(nodeType);
+    $ac(el, $t(input.value));
+    makeEditable(el, saveCallback);
+    input.parentNode.replaceChild(el, input);
+    saveCallback(input.value);
+}

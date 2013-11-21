@@ -3,7 +3,19 @@ function addTab(name) {
     var tabbar = $('module-tabbar');
     var li = $c('li');
     li.classList.add('module-tabbutton');
-    li.innerHTML = name;
+    var nameSpan = $c('span');
+    $ac(nameSpan, $t(name));
+    makeEditable(nameSpan, function(newName) {
+        moduleTabs[newName] = moduleTabs[name];
+        delete moduleTabs[name];
+        window['gracecode_' + name] = undefined;
+        sessionStorage.removeItem('code:' + name);
+        name = newName;
+        li.dataset.module = name;
+        compileTab(newName);
+        saveLocalStorage();
+    });
+    $ac(li, nameSpan);
     li.classList.add('active');
     li.addEventListener('click', tabClickListener);
     li.dataset.module = name;
