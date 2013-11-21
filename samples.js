@@ -11,7 +11,7 @@ window.onload = function() {
 };
 
 function loadSampleJS(k) {
-    if (window[k])
+    if (window['gracecode_' + k])
         return;
     var sample = samples[k];
     var jobID = createJob("Load " + k + "'s precompiled JavaScript");
@@ -34,7 +34,7 @@ function loadSampleJS(k) {
     });
 }
 
-function loadSample(k) {
+function loadSample(k, force) {
     var sample = samples[k];
     if (sample.requires) {
         for (var i=0; i<sample.requires.length; i++)
@@ -43,6 +43,9 @@ function loadSample(k) {
     var jobID = createJob("Load " + k + " sample");
     getFile("./samples/" + sample.dir + '/' + k + ".grace", function(text) {
         completeJob(jobID, 'good');
+        if (force && moduleTabs[k]) {
+            moduleTabs[k].editor.setValue(text, -1);
+        }
         scheduleTab(k, text, true);
         loadSampleJS(k);
     }, function() {
@@ -114,7 +117,7 @@ function samplesClickListener() {
                 'style': 'float: right;'});
             loadButton.addEventListener('click', function() {
                 odiv.remove();
-                loadSample(this.dataset.module);
+                loadSample(this.dataset.module, true);
             });
             $ac(sdiv, loadButton);
             $ac(sdiv, title);
