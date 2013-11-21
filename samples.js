@@ -53,7 +53,8 @@ function loadSample(k) {
 function samplesClickListener() {
     popupBox(function(odiv) {
         odiv.appendChild($t("Choose a sample to load"));
-        var div = $c('div', {style: "clear: both; overflow-y: auto; max-height: 40vh;"});
+        var div = $c('div');
+        div.classList.add('samples-list');
         var categories = {"All": []};
         for (var s in samples) {
             var samp = samples[s];
@@ -98,13 +99,14 @@ function samplesClickListener() {
             sdiv.dataset.module = s;
             var title = $c('h2');
             $ac(title, $t(samp.name));
-            $ac(sdiv, title);
             var loadButton = $c('input', {'type': 'button', value: 'Load',
                 'style': 'float: right;'});
             loadButton.addEventListener('click', function() {
                 odiv.remove();
                 loadSample(this.dataset.module);
             });
+            $ac(sdiv, loadButton);
+            $ac(sdiv, title);
             loadButton.dataset.module = s;
             if (samp.description) {
                 var req = $c('p');

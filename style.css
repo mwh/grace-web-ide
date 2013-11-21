@@ -206,11 +206,29 @@ html, body {
 .popup-box .close-button:hover {
     color: #f44;
 }
-.popup-box h2 {
+.samples-list h2 {
     font-size: 120%;
     margin-top: 0;
     margin-bottom: 0;
+    clear: left;
+}
+.samples-list {
     clear: both;
+    overflow-y: auto;
+    max-height: 40vh;
+}
+.samples-list div {
+    clear: both;
+    margin: 0;
+}
+.samples-list div:nth-child(odd) {
+    background: #ddd;
+}
+.samples-list div:nth-child(even) {
+    background: white;
+}
+.samples-list p:last-child {
+    margin-bottom: 0;
 }
 #restore-prompt {
     position: absolute;
