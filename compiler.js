@@ -221,14 +221,14 @@ function makeStderrLine(line) {
     line = line.replace('<', '&lt;');
     line = line.replace('>', '&gt;');
     line = line.replace(' ', '&nbsp;');
-    line = line.replace(/([a-zA-Z0-9_]+)\.grace\[([0-9]+):([0-9]+)-([0-9]+)(.*?\])/g,
+    line = line.replace(/([a-zA-Z0-9_\/]+)\.grace\[([0-9]+):([0-9]+)-([0-9]+)(.*?\])/g,
             '<a href="javascript:jumpTo('+"'$1', $2, $3, $4)"+';">'
             + '$1.grace[$2:$3-$4$5</a>');
-    line = line.replace(/([a-zA-Z0-9_]+)\.grace\[([0-9]+):([0-9]+)(\])/g,
+    line = line.replace(/([a-zA-Z0-9_\/]+)\.grace\[([0-9]+):([0-9]+)(\])/g,
             '<a href="javascript:jumpTo('+"'$1', $2, $3)"+';">'
             + '$1.grace[$2:$3$4</a>');
-    line = line.replace(/ ([a-zA-Z0-9_]+):([0-9]+)/g,
-            ' <a href="javascript:jumpTo(' + "'$1', $2)" + ';">$1:$2</a>');
+    line = line.replace(/([ ;])([a-zA-Z0-9_\/]+):([0-9]+)/g,
+            '$1<a href="javascript:jumpTo(' + "'$2', $3)" + ';">$2:$3</a>');
     li.innerHTML = line;
     return li;
 }
