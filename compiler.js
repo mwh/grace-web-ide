@@ -180,8 +180,22 @@ function run() {
     if (minigrace.compileError)
         reportCompileError($('stderr_txt').value, module, true);
     updateStderr($('stderr_txt').value, module);
-    if (minigrace.exception)
+    if (minigrace.exception) {
         updateException();
+        var imports = window[gcMod(module)].imports;
+        for (var i=0; i<imports.length; i++) {
+            if (!moduleTabs[imports[i]]) {
+                if (samples[imports[i]]) {
+                    if (confirm("It looks like you're trying to use the '"
+                                + samples[imports[i]].name
+                                + "' sample, which isn't loaded. Do you want "
+                                + "to load it now?")) {
+                        loadSample(imports[i]);
+                    }
+                }
+            }
+        }
+    }
 }
 
 function updateException() {
