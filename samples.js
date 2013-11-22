@@ -11,15 +11,15 @@ window.onload = function() {
 };
 
 function loadSampleJS(k) {
-    if (window['gracecode_' + k])
+    if (window[gcMod(k)])
         return;
     var sample = samples[k];
     var jobID = createJob("Load " + k + "'s precompiled JavaScript");
     getFile("./samples/" + sample.dir + '/' + k + ".js", function(text) {
         var theModule;
         eval(text);
-        eval("theModule = gracecode_" + k + ";");
-        window['gracecode_' + k] = theModule;
+        eval("theModule = " + gcMod(k) + ";");
+        window[gcMod(k)] = theModule;
         bgMinigrace.postMessage({action: 'import', modname: k,
             code: text});
         completeJob(jobID, 'good');

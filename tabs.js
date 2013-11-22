@@ -16,7 +16,7 @@ function addTab(name) {
             return;
         moduleTabs[newName] = moduleTabs[name];
         delete moduleTabs[name];
-        window['gracecode_' + name] = undefined;
+        window[gcMod(name)] = undefined;
         sessionStorage.removeItem('code:' + name);
         name = newName;
         li.dataset.module = name;
@@ -122,7 +122,7 @@ function closeTab(name) {
     tabbar.removeChild(li);
     div.remove();
     delete moduleTabs[name];
-    window['gracecode_' + name] = undefined;
+    window[gcMod(name)] = undefined;
     sessionStorage.removeItem('code:' + name);
     saveLocalStorage();
     var code = tab.editor.getValue();

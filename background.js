@@ -34,8 +34,8 @@ onmessage = function(ev) {
             });
             var theModule;
             eval(minigrace.generated_output);
-            eval("theModule = gracecode_" + cmd.modname + ";");
-            self['gracecode_' + cmd.modname] = theModule;
+            eval("theModule = gracecode_" + cmd.modname.replace('/','$') +";");
+            self['gracecode_' + cmd.modname.replace('/','$')] = theModule;
         } else {
             postMessage({success: false, stderr: stderr_output,
                 modname: cmd.modname, jobID: cmd.jobID
@@ -46,8 +46,8 @@ onmessage = function(ev) {
     } else if (cmd.action == "import") {
         var theModule;
         eval(cmd.code);
-        eval("theModule = gracecode_" + cmd.modname + ";");
-        self['gracecode_' + cmd.modname] = theModule;
+        eval("theModule = gracecode_" + cmd.modname.replace('/','$') + ";");
+        self['gracecode_' + cmd.modname.replace('/','$')] = theModule;
     } else if (cmd.action == "importGCT") {
         gctCache[cmd.modname] = cmd.gct;
     }

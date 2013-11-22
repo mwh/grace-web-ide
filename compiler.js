@@ -31,11 +31,15 @@ function tabUpdateCheck() {
     }
 }
 
+function gcMod(name) {
+    return "gracecode_" + name.replace('/', '$');
+}
+
 function compileTab(k, dependencies) {
     var tb = moduleTabs[k];
     if (dependencies) {
         for (var i=0; i<dependencies.length; i++) {
-            if (!window['gracecode_' + dependencies[i]]) {
+            if (!window[gcMod(dependencies[i])]) {
                 setTimeout(function() {compileTab(k, dependencies);}, 1000);
                 return;
             }
@@ -72,7 +76,7 @@ function backgroundMessageReceiver(ev) {
     tb.tab.title = '';
     if (!ev.data.success) {
         reportCompileError(ev.data.stderr, ev.data.modname, false)
-        window['gracecode_' + ev.data.modname] = undefined;
+        window[gcMod(ev.data.modname)] = undefined;
         return;
     }
     tb.tab.classList.add('success');
@@ -81,8 +85,8 @@ function backgroundMessageReceiver(ev) {
     moduleTabs[ev.data.modname].editor.getSession().clearAnnotations();
     eval(ev.data.output);
     var theModule;
-    eval("theModule = gracecode_" + ev.data.modname + ";");
-    window['gracecode_' + ev.data.modname] = theModule;
+    eval("theModule = " + gcMod(ev.data.modname) + ";");
+    window[gcMod(ev.data.modname)] = theModule;
 }
 
 function scrollstdout() {
@@ -161,7 +165,7 @@ function run() {
     minigrace.printStackFrames = false;
     var oldstderr = $('stderr_txt').value;
     $('stderr_txt').value = "";
-    if (!tabData.changedSinceLast && window['gracecode_' + module]
+    if (!tabData.changedSinceLast && window[gcMod(module)]
             && (!tabData.jobID || isJobCompleted(tabData.jobID))) {
         minigrace.lastSourceCode = editor.getValue();
         minigrace.lastModname = module;
@@ -252,7 +256,7 @@ function makeSuggestionLine(line, module) {
 }
 
 function validateModuleName(name) {
-    if (/[[\]()!@#$%^&-=+{};:'"?><`~ \/\\]/.test(name)) {
+    if (/[[\]()!@#$%^&\-=+{};:'"?><`~ \\]/.test(name)) {
         alert("'" + name + "' is not a valid module name. "
                 + "Try again without spaces or special characters.");
         return false;
