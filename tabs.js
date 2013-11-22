@@ -176,11 +176,14 @@ function updateScheduledTab(name, delta) {
     }
 }
 
-function jumpTo(module, line, pos) {
+function jumpTo(module, line, pos, end) {
     switchTab(module);
     var editor = moduleTabs[module].editor;
     editor.moveCursorTo(line - 1, pos ? pos - 1 : 0);
-    editor.getSelection().clearSelection();
+    if (end)
+        editor.getSelection().setSelectionAnchor(line - 1, end);
+    else
+        editor.getSelection().clearSelection();
 }
 
 // vim: set expandtab ts=8 sw=4 tw=0: 
