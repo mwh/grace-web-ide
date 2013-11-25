@@ -103,6 +103,7 @@ html, body {
 #toolbar {
     background: #ddd;
     border-bottom: 1px solid white;
+    padding-bottom: 2px;
 }
 #runbutton {
     color: green;
@@ -172,9 +173,14 @@ html, body {
     border: 0;
     background: none;
 }
+#toolbar button, #toolbar a {
+    margin-right: 3px;
+    padding-left: 7px;
+    padding-right: 7px;
+}
 #toolbar button#uploadbutton, #toolbar #downloadbutton {
     font-family: entypo;
-    font-size: 25px;
+    font-size: 28px;
 }
 #downloadbutton {
     color: black;
