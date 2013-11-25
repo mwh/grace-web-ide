@@ -113,8 +113,8 @@ function samplesClickListener() {
             sdiv.dataset.module = s;
             var title = $c('h2');
             $ac(title, $t(samp.name));
-            var loadButton = $c('input', {'type': 'button', value: 'Load',
-                'style': 'float: right;'});
+            var loadButton = $c('input', {'type': 'button', value: 'Load'});
+            loadButton.style['float'] = "right";
             loadButton.addEventListener('click', function() {
                 odiv.remove();
                 loadSample(this.dataset.module, true);
