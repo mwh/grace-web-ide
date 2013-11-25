@@ -114,6 +114,7 @@ function samplesClickListener() {
             var title = $c('h2');
             $ac(title, $t(samp.name));
             var loadButton = $c('input', {'type': 'button', value: 'Load'});
+            loadButton.style = "float: right;";
             loadButton.style['float'] = "right";
             loadButton.addEventListener('click', function() {
                 odiv.remove();
