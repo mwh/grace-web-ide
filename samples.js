@@ -56,6 +56,40 @@ function loadSample(k, force) {
 function samplesClickListener() {
     popupBox(function(odiv) {
         odiv.appendChild($t("Choose a sample to load"));
+        var textinput = $c('input', {type: 'text', style: 'width: 100%'});
+        $ac(odiv, textinput);
+        textinput.addEventListener('input', function() {
+            var needleBits = this.value.toLowerCase().split(' ');
+            for (var i=0; i<div.childNodes.length; i++) {
+                var el = div.childNodes[i];
+                if (!el.dataset)
+                    continue;
+                el.style.display = 'none';
+                var samp = samples[el.dataset.module];
+                var matched = true;
+                for (var j=0; j<needleBits.length; j++) {
+                    var needle = needleBits[j];
+                    if (!needle) continue;
+                    if (!(el.dataset.module.toLowerCase().indexOf(needle) != -1
+                        || samp.description.toLowerCase().indexOf(needle) != -1
+                        || samp.name.toLowerCase().indexOf(needle) != -1))
+                        matched = false;
+                }
+                if (matched)
+                    el.style.display = 'block';
+            }
+            var lastDisplayed;
+            for (var i=div.childNodes.length-1; i>=0; i--) {
+                if (div.childNodes[i].style.display == 'none'
+                    && lastDisplayed) {
+                    var d = div.childNodes[i];
+                    d.remove();
+                    div.insertBefore(d, lastDisplayed.nextSibling);
+                } else if (!lastDisplayed) {
+                    lastDisplayed = div.childNodes[i];
+                }
+            }
+        });
         var div = $c('div');
         div.classList.add('samples-list');
         var categories = {"All": []};
