@@ -19,6 +19,11 @@ minigrace.stderr_write = function(value) {
 minigrace.debugMode = true;
 minigrace.printStackFrames = false;
 minigrace.verbose = false;
+// Redefine this function to avoid mingling dialect output with
+// compiler output.
+Grace_print = function(obj) {
+    return var_done;
+}
 onmessage = function(ev) {
     var cmd = ev.data;
     stderr_output = "";
