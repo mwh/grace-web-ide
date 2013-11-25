@@ -90,6 +90,14 @@ function samplesClickListener() {
                 }
             }
         });
+        textinput.addEventListener('keypress', function(ev) {
+            if (ev.keyCode == 13) {
+                if (div.childNodes[1].style.display == 'none') {
+                    odiv.remove();
+                    loadSample(div.childNodes[0].dataset.module, true);
+                }
+            }
+        });
         var div = $c('div');
         div.classList.add('samples-list');
         var categories = {"All": []};
