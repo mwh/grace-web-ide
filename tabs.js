@@ -2,6 +2,10 @@ var moduleTabs = {};
 function addTab(name) {
     if (!validateModuleName(name))
         return null;
+    if (moduleTabs[name]) {
+        switchTab(name);
+        return moduleTabs[name];
+    }
     var tabbar = $('module-tabbar');
     var li = $c('li');
     li.classList.add('module-tabbutton');
