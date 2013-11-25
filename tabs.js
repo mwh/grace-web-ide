@@ -128,7 +128,7 @@ function closeTab(name) {
     var li = tab.tab;
     var div = tab.div;
     tabbar.removeChild(li);
-    div.remove();
+    div.parentNode.removeChild(div);
     delete moduleTabs[name];
     window[gcMod(name)] = undefined;
     sessionStorage.removeItem('code:' + name);

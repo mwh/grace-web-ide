@@ -83,7 +83,7 @@ function samplesClickListener() {
                 if (div.childNodes[i].style.display == 'none'
                     && lastDisplayed) {
                     var d = div.childNodes[i];
-                    d.remove();
+                    div.removeChild(d);
                     div.insertBefore(d, lastDisplayed.nextSibling);
                 } else if (!lastDisplayed) {
                     lastDisplayed = div.childNodes[i];
@@ -93,7 +93,7 @@ function samplesClickListener() {
         textinput.addEventListener('keypress', function(ev) {
             if (ev.keyCode == 13) {
                 if (div.childNodes[1].style.display == 'none') {
-                    odiv.remove();
+                    odiv.parentNode.removeChild(odiv);
                     loadSample(div.childNodes[0].dataset.module, true);
                 }
             }
@@ -137,7 +137,7 @@ function samplesClickListener() {
                     if (div.childNodes[i].style.display == 'none'
                         && lastDisplayed) {
                         var d = div.childNodes[i];
-                        d.remove();
+                        div.removeChild(d);
                         div.insertBefore(d, lastDisplayed.nextSibling);
                     } else if (!lastDisplayed) {
                         lastDisplayed = div.childNodes[i];
@@ -159,7 +159,7 @@ function samplesClickListener() {
             loadButton.style = "float: right;";
             loadButton.style['float'] = "right";
             loadButton.addEventListener('click', function() {
-                odiv.remove();
+                odiv.parentNode.removeChild(odiv);
                 loadSample(this.dataset.module, true);
             });
             $ac(sdiv, loadButton);
@@ -212,7 +212,7 @@ function samplesClickListener() {
             sampDivs[name].style.display = 'block';
             if (relativeTo) {
                 var relDiv = sampDivs[relativeTo];
-                sampDivs[name].remove();
+                sampDivs[name].parentNode.removeChild(sampDivs[name]);
                 div.insertBefore(sampDivs[name], sampDivs[relativeTo]);
             }
             div.scrollTop = sampDivs[name].offsetTop - 100;

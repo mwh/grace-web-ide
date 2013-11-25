@@ -29,7 +29,7 @@ function $ha(o, c) {
 function offerRestore(message, func) {
     var restorePrompt = $('restore-prompt');
     while (restorePrompt.lastChild)
-        restorePrompt.lastChild.remove();
+        restorePrompt.removeChild(restorePrompt.lastChild);
     restorePrompt.appendChild($t(message));
     var a = $c('a');
     a.href = 'javascript:;';
@@ -49,7 +49,7 @@ function clearRestore() {
     var restorePrompt = $('restore-prompt');
     while (restorePrompt.lastChild)
     while (restorePrompt.lastChild)
-        restorePrompt.lastChild.remove();
+        restorePrompt.removeChild(restorePrompt.lastChild);
     restorePrompt.style.display = 'none';
 }
 
@@ -67,8 +67,8 @@ function restoreLocalStorage() {
         return;
     for (var k in moduleTabs) {
         var tb = moduleTabs[k];
-        tb.div.remove();
-        tb.tab.remove();
+        tb.div.parentNode.removeChild(tb.div);
+        tb.tab.parentNode.removeChild(tb.tab);
         delete moduleTabs[k];
     }
     var modules = localStorage.getItem('modules').split(',');
@@ -98,7 +98,9 @@ function popupBox(func) {
     var closeButton = $c('button');
     closeButton.classList.add('close-button');
     closeButton.innerHTML = '&#10060;';
-    closeButton.addEventListener('click', function() {div.remove()});
+    closeButton.addEventListener('click', function() {
+        div.parentNode.removeChild(div)
+    });
     div.appendChild(closeButton);
     func(div);
     document.body.appendChild(div);
@@ -126,7 +128,8 @@ function completeJob(jobID, state) {
     jobData[jobID].li.classList.add('done');
     jobData[jobID].complete = true;
     setTimeout(function() {
-        jobData[jobID].li.remove();
+        var li = jobData[jobID].li;
+        li.parentNode.removeChild(li);
         delete jobData[jobID];
     }, 750);
 }

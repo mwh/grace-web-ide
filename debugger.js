@@ -14,7 +14,7 @@ function examineException(exception) {
             });
             vl.style.display = 'none';
             li.addEventListener('click', function() {
-                this.firstChild.remove();
+                this.removeChild(this.firstChild);
                 if (this.lastChild.style.display == 'none') {
                     this.lastChild.style.display = 'block';
                     this.insertBefore($t('▾'), this.firstChild);
@@ -44,10 +44,10 @@ function createVarDTDD(name, value, vl) {
         dd.addEventListener('click', function(ev) {
             ev.stopPropagation();
             var dt = this.previousSibling;
-            dt.firstChild.remove();
+            dt.removeChild(dt.firstChild);
             if (this.getElementsByTagName('dl').length) {
                 dt.insertBefore($t('▸'), dt.firstChild);
-                this.getElementsByTagName('dl')[0].remove();
+                this.removeChild(this.getElementsByTagName('dl')[0]);
             } else {
                 dt.insertBefore($t('▾'), dt.firstChild);
                 offerObjectInspection(value, this);
