@@ -146,7 +146,9 @@ function aboutClickListener() {
     popupBox(function(div) {
         $ha(div,
             '<p><a href="http://ecs.vuw.ac.nz/~mwh/minigrace/">Minigrace</a> '
-            + 'version ' + MiniGrace.version + '/' + MiniGrace.revision + '</p>'
+            + 'version ' + MiniGrace.version + '/'
+            + '<a href="https://github.com/mwh/minigrace/tree/'
+            + MiniGrace.revision + '">' + MiniGrace.revision + '</a></p>'
             + '<p>Entypo pictograms by Daniel Bruce — '
             + '<a href="http://www.entypo.com/">www.entypo.com</a></p>'
         );
