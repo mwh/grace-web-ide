@@ -58,6 +58,8 @@ function compileTab(k, dependencies) {
     });
     tb.tab.classList.add('compiling');
     tb.tab.title = "Compiling in background...";
+    if (tb.tab.classList.contains('active'))
+        $('runbutton').innerHTML = '▷';
 }
 
 function backgroundMessageReceiver(ev) {
@@ -73,6 +75,10 @@ function backgroundMessageReceiver(ev) {
     moduleTabs[ev.data.modname].noCompile = false;
     if (moduleTabs[ev.data.modname].changedSinceLast)
         return;
+    if (tb.jobID == ev.data.jobID) {
+        tb.jobID = undefined;
+        $('runbutton').innerHTML = '▶';
+    }
     tb.tab.title = '';
     if (!ev.data.success) {
         reportCompileError(ev.data.stderr, ev.data.modname, false)

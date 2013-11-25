@@ -103,6 +103,10 @@ function switchTab(name) {
             moduleTabs[k].tab.classList.remove('active');
         }
     }
+    if (moduleTabs[name].jobID)
+        $('runbutton').innerHTML = '▷';
+    else
+        $('runbutton').innerHTML = '▶';
     updateDownloadURL();
 }
 
