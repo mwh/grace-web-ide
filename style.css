@@ -124,7 +124,7 @@ html, body {
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     cursor: default;
-    height: 2ex;
+    min-height: 2ex;
     border-bottom: 1px solid #bbb;
     transition: border-color 0.25s;
 }
@@ -208,6 +208,7 @@ html, body {
     right: 0mm;
     border: 0;
     background: transparent;
+    overflow: visible;
 }
 .popup-box .close-button:hover {
     color: #f44;
