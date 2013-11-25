@@ -188,13 +188,13 @@ html, body {
 }
 .popup-box {
     z-index: 1000;
-    border: 5px solid #99c;
+    border: 5px solid #999;
     background: #eee;
     position: absolute;
     max-width: 40%;
-    max-height: 50%;
+    max-height: 60%;
     overflow-y: auto;
-    left: 35%;
+    left: 30%;
     top: 20%;
     padding: 2mm;
     padding-right: 1cm;
@@ -221,7 +221,7 @@ html, body {
 .samples-list {
     clear: both;
     overflow-y: auto;
-    max-height: 40vh;
+    max-height: 50vh;
 }
 .samples-list div {
     clear: both;
