@@ -23,7 +23,7 @@ function $ha(o, c) {
     var div = $c('div');
     div.innerHTML = c;
     for (var i=0; i<div.childNodes.length; i++) {
-        o.appendChild(div.childNodes[i].cloneNode());
+        o.appendChild(div.childNodes[i].cloneNode(true));
     }
 }
 function offerRestore(message, func) {
