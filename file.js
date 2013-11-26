@@ -34,17 +34,22 @@ function updateDownloadURL() {
     dl.download = module + '.grace';
     dl.href = u;
 }
-function downloadFile() {
-    var url = window.URL;
-    if (!url && window.webkitURL)
-        url = window.webkitURL;
-    var module = $('module-tabbar').getElementsByClassName('active')[0]
-        .dataset.module;
-    var tabData = moduleTabs[module];
-    var editor = tabData.editor;
-    var blob = new Blob([editor.getValue()],
-            {type: "text/x-grace;charset=utf-8"});
-    var u = url.createObjectURL(blob);
-    window.location.href = u;
-    url.revokeObjectURL(u);
-}
+window.addEventListener('load', function() {
+    var downloadAttrSupported = (typeof document.createElement('a').download
+        != 'undefined');
+    var dl = $('downloadbutton');
+    if (!downloadAttrSupported) {
+        dl.title = "Your browser does not support the download attribute "
+            + "on links; "
+            + "to download the file, right-click and save as.";
+        dl.addEventListener('click', function (ev) {
+            alert("Your browser does not support the download attribute. "
+                + "To download the file, right-click and save as."
+                + "\n\nAlternatively, return in a recent version of "
+                + "Firefox, Chrome, or Opera, where this functionality "
+                + "works."
+                );
+            ev.preventDefault();
+        });
+    }
+});
