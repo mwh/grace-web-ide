@@ -108,6 +108,12 @@ html, body {
 #runbutton {
     color: green;
 }
+#toolbar button:hover, #toolbar a:hover {
+    color: #00a;
+}
+#toolbar #runbutton:hover {
+    color: #0a0;
+}
 #module-tabbar {
     list-style-type: none;
     margin: 0;
@@ -185,6 +191,7 @@ html, body {
 #downloadbutton {
     color: black;
     text-decoration: none;
+    cursor: pointer;
 }
 .popup-box {
     z-index: 1000;
