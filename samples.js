@@ -147,6 +147,7 @@ function samplesClickListener() {
         }
         odiv.appendChild(fdiv);
         odiv.appendChild(div);
+        setTimeout(function() {textinput.focus();}, 100);
         var sampDivs = {};
         for (var s in samples) {
             var samp = samples[s];
