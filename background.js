@@ -55,5 +55,7 @@ onmessage = function(ev) {
         self['gracecode_' + cmd.modname.replace('/','$')] = theModule;
     } else if (cmd.action == "importGCT") {
         gctCache[cmd.modname] = cmd.gct;
+    } else if (cmd.action == "unimport") {
+        self['gracecode_' + cmd.modname.replace('/','$')] = undefined;
     }
 }

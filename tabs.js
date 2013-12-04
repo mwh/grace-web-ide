@@ -133,6 +133,9 @@ function closeTab(name) {
     window[gcMod(name)] = undefined;
     sessionStorage.removeItem('code:' + name);
     saveLocalStorage();
+    bgMinigrace.postMessage({action: "unimport",
+        modname: name
+    });
     var code = tab.editor.getValue();
     offerRestore("Closed tab " + name, function() {
         addTab(name);
