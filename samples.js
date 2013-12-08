@@ -121,6 +121,10 @@ function samplesClickListener() {
             $ac(fdiv, cl);
             cl.dataset.category = cat;
             cl.addEventListener('click', function() {
+                var as = this.parentNode.getElementsByTagName('a');
+                for (var i=0; i<as.length; i++)
+                  as[i].style.fontWeight = 'normal';
+                this.style.fontWeight = 'bold';
                 for (var i=0; i<div.childNodes.length; i++) {
                     var el = div.childNodes[i];
                     var cur = categories[this.dataset.category];
