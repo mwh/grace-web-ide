@@ -58,6 +58,8 @@
     $('aboutbutton').addEventListener('click', aboutClickListener);
     $('samplesbutton').addEventListener('click', samplesClickListener);
     restoreLocalStorage();
+    if (localStorage.getItem('seen-tour') != "1")
+      setTimeout(tour, 500);
    });
   </script>
  </body>

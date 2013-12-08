@@ -210,3 +210,83 @@ function finishElementEdit(input, nodeType, saveCallback) {
     input.parentNode.replaceChild(el, input);
     saveCallback(input.value);
 }
+
+function tour() {
+    localStorage.setItem("seen-tour", "1");
+    var obscurer = $c('div');
+    obscurer.style.position = 'absolute';
+    obscurer.style.left = 0;
+    obscurer.style.top = 0;
+    obscurer.style.right= 0;
+    obscurer.style.bottom = 0;
+    obscurer.style.zIndex = 100;
+    var tips = [];
+    function addTip(el, message) {
+        tips.push({el: el, message: message});
+    }
+    function nextTip() {
+        showTip(tips.shift());
+    }
+    function findOffset(el) {
+        var top = el.offsetTop;
+        var left = el.offsetLeft;
+        var el2 = el.offsetParent;
+        while (el2) {
+            top += el2.offsetTop;
+            left += el2.offsetLeft;
+            el2 = el2.offsetParent;
+        }
+        return {offsetTop: top, offsetLeft: left,
+            offsetWidth: el.offsetWidth, offsetHeight: el.offsetHeight};
+    }
+    function showTip(tip) {
+        while (obscurer.lastChild)
+            obscurer.removeChild(obscurer.lastChild);
+        var heading = $c('h2');
+        var box = $c('div');
+        box.style.border = '3px solid blue';
+        box.style.position = 'absolute';
+        var of = findOffset(tip.el);
+        box.style.top = (of.offsetTop - 3) + 'px';
+        box.style.left = of.offsetLeft + 'px';
+        box.style.width = of.offsetWidth + 'px';
+        box.style.height = of.offsetHeight + 'px';
+        obscurer.appendChild(box);
+        var msgbox = $c('div');
+        $ha(heading, "Interface tour");
+        msgbox.appendChild(heading);
+        $ha(msgbox, "<p>" + tip.message + "</p>");
+        msgbox.style.position = 'absolute';
+        msgbox.style.top = '20%';
+        msgbox.style.left = '20%';
+        msgbox.style.background = '#ddd';
+        msgbox.style.border = '3px solid #bbb';
+        msgbox.style.width = '300px';
+        var close = $c('button');
+        $ha(close, "Close");
+        close.style.styleFloat = close.style.cssFloat = "right";
+        close.addEventListener('click', function() {
+            document.body.removeChild(obscurer);
+        });
+        if (tips.length) {
+            var next = $c('button');
+            $ha(next, "Next");
+            next.addEventListener('click', nextTip);
+            next.style.styleFloat = next.style.cssFloat = "right";
+            msgbox.appendChild(next);
+        }
+        msgbox.appendChild(close);
+        obscurer.appendChild(msgbox);
+    }
+    addTip($('runbutton'), "To run your program, click the green arrow.");
+    addTip($('output_area'), "The output of your program appears on the right.");
+    addTip($('stderr_area'), "If there is error output from compiling or running your program, it appears below.");
+    addTip(document.getElementsByClassName('module-tabbutton')[1], "The tab border will be orange while the module is being recompiled in the background, and red if there was an error.");
+    addTip(document.getElementsByClassName('ace_gutter')[0], "If there is a static error in your program, the line of the error will be marked beside the code. You can hover over the marker to see the error, or click it for more information.");
+    addTip($('samplesbutton'), "To load one of the prewritten samples into the system, click the \"Load sample\" button.");
+    addTip($('module-tabbar-new'), "To create a new module, click the new tab button.");
+    addTip($('output-select'), "To switch between viewing the textual and graphical output of your program, use the menu below the output.");
+    addTip($('downloadbutton'), "To download your program to your computer, click the download button.");
+    document.body.appendChild(obscurer);
+    nextTip();
+}
