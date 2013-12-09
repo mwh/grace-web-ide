@@ -119,6 +119,7 @@ function samplesClickListener() {
             var cl = $c('a');
             cl.style.display = 'inline-block';
             cl.style.marginRight = '1ex';
+            cl.style.cursor = 'pointer';
             $ac(cl, $t(cat + " (" + categories[cat].length + ") "));
             $ac(fdiv, cl);
             cl.dataset.category = cat;
