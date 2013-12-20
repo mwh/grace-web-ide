@@ -193,10 +193,6 @@ var JavaScriptHighlightRules = function() {
     // keywords which can be followed by regular expressions
     var kwBeforeRe = "case|do|else|finally|in|instanceof|return|throw|try|typeof|yield";
 
-    var deprecated = lang.arrayToMap(
-        ("__parent__|__count__|escape|unescape|with|__proto__").split("|")
-    );
-
     var definitions = lang.arrayToMap(("const|let|var|function").split("|"));
 
     var buildinConstants = lang.arrayToMap(
@@ -378,8 +374,6 @@ var JavaScriptHighlightRules = function() {
                 token : function(value) {
                     if (globals.hasOwnProperty(value))
                         return "variable.language";
-                    else if (deprecated.hasOwnProperty(value))
-                        return "invalid.deprecated";
                     else if (definitions.hasOwnProperty(value))
                         return "storage.type";
                     else if (keywords.hasOwnProperty(value))
