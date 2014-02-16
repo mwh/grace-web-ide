@@ -112,6 +112,9 @@ function reportCompileError(stderr, modname, interactive) {
             break;
         }
     }
+    while (line.match(/^.+?\.grace:.+?: warning:/)) {
+        line = lines[++i];
+    }
     if (bits = line.match(/^.+\[([0-9]+)\]: (.+)$/)) {
         var linenum = +bits[1];
         var message = bits[2];
