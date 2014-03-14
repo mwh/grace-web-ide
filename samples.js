@@ -239,5 +239,10 @@ window.addEventListener('load', function() {
                 for (var i=0; i<samples[s].requires.length; i++)
                     samples[samples[s].requires[i]].usedBy.push(s);
         }
+        if (window.location.hash.substring(0,8) == "#sample=") {
+            var samp = window.location.hash.substring(8);
+            if (samples[samp])
+                loadSample(samp, true);
+        }
     });
 });
