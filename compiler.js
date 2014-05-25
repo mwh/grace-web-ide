@@ -52,7 +52,7 @@ function compileTab(k, dependencies) {
     tb.changedSinceLast = false;
     var jobID = createJob("Compile " + k);
     tb.jobID = jobID;
-    bgMinigrace.postMessage({action: "compile", mode: "js",
+    bgMinigrace.postMessage({action: "compile", mode: "ecmascript",
         modname: k, source: tb.editor.getValue(),
         jobID: jobID
     });
