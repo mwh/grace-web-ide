@@ -200,7 +200,7 @@ var JavaScriptHighlightRules = function() {
     );
 
     var futureReserved = lang.arrayToMap(
-        ("class|enum|extends|super|export|implements|private|" +
+        ("class|constructor|enum|extends|super|export|implements|private|" +
         "public|interface|package|protected|static").split("|")
     );
 
@@ -1018,7 +1018,7 @@ var GraceHighlightRules = function() {
     var keywords = lang.arrayToMap(
         (
             "object|method|class|def|var|return|inherits|is|dialect|import|as"
-            + "|type"
+            + "|type|constructor"
         ).split("|")
     );
 
