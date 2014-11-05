@@ -1,0 +1,34 @@
+This tool provides a web IDE for Grace
+
+To use the editor yourself, copy in a minigrace.js file to the working
+tree root. minigrace.js can be generated from a minigrace.git working
+tree with:
+    make es
+and will then be in es/minigrace.js. You will also need to copy in the
+corresponding version of background.js (which changes only infrequently).
+
+You will also need to obtain the ACE editor from <http://ace.c9.io/> and put
+all of its .js files into the "ace" directory.
+
+If you want to be able to load sample code automatically, copy or symlink the
+'sample' directory in your minigrace repository into the root of this one with
+the name 'samples'.
+
+You can save user time by precompiling dialects and other dependencies of the
+main samples. Any you want to use should be compiled with the same version of
+the compiler:
+    minigrace --target es -o sniff.js sniff.grace
+Alternatively, in the case that you have symlinked in the samples:
+    make samples
+in the minigrace repository will build the default samples. The sample
+programs themselves are loaded from .grace files and do not need
+precompilation.
+
+Because of browser security rules, the editor must be served over HTTP for
+sample retrieval to work. Either copy it into your web root, or run an
+in-place web server such as osws:
+    osws -I index.html -m -M .woff application/font-woff \
+        -M .json application/json -d .
+
+The Grace Web IDE is distributed under the GNU General Public License, version
+3 or later, and without warranty of any kind.
